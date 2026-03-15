@@ -1,0 +1,20 @@
+{
+  "mode": "interactive",
+  "granularity": "fine",
+  "parallelization": true,
+  "commit_docs": true,
+  "model_profile": "balanced",
+  "workflow": {
+    "research": true,
+    "plan_check": true,
+    "verifier": true,
+    "nyquist_validation": true,
+    "interactive_gates": {
+      "before_new_file": true,
+      "before_new_dependency": true,
+      "before_ui_component": true,
+      "before_architecture_decision": true,
+      "before_scope_expansion": true
+    }
+  }
+}
