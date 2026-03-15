@@ -128,25 +128,63 @@
 
 ## Traceability
 
-*À remplir lors de la création du roadmap.*
-
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| FOUND-01 à FOUND-05 | Phase 1 | Pending |
-| AUTH-01 à AUTH-05 | Phase 2 | Pending |
-| DASH-01 à DASH-08 | Phase 3 | Pending |
-| SYNC-01 à SYNC-07 | Phase 4 | Pending |
-| RBAC-01 à RBAC-03 | Phase 2 | Pending |
-| TEAM-01 à TEAM-05 | Phase 5 | Pending |
-| SETT-01 à SETT-05 | Phase 5 | Pending |
-| BILL-01 à BILL-05 | Phase 6 | Pending |
-| LAND-01 à LAND-06 | Phase 7 | Pending |
+| FOUND-01 | Phase 1 — Fondation : Schéma & RLS | Pending |
+| FOUND-02 | Phase 1 — Fondation : Schéma & RLS | Pending |
+| FOUND-03 | Phase 1 — Fondation : Schéma & RLS | Pending |
+| FOUND-04 | Phase 1 — Fondation : Schéma & RLS | Pending |
+| FOUND-05 | Phase 1 — Fondation : Schéma & RLS | Pending |
+| AUTH-01 | Phase 2 — Authentification & RBAC | Pending |
+| AUTH-02 | Phase 2 — Authentification & RBAC | Pending |
+| AUTH-03 | Phase 2 — Authentification & RBAC | Pending |
+| AUTH-04 | Phase 2 — Authentification & RBAC | Pending |
+| AUTH-05 | Phase 2 — Authentification & RBAC | Pending |
+| RBAC-01 | Phase 2 — Authentification & RBAC | Pending |
+| RBAC-02 | Phase 2 — Authentification & RBAC | Pending |
+| RBAC-03 | Phase 2 — Authentification & RBAC | Pending |
+| DASH-01 | Phase 3 — Dashboard : Table, Filtres & KPI | Pending |
+| DASH-02 | Phase 3 — Dashboard : Table, Filtres & KPI | Pending |
+| DASH-03 | Phase 3 — Dashboard : Table, Filtres & KPI | Pending |
+| DASH-04 | Phase 3 — Dashboard : Table, Filtres & KPI | Pending |
+| DASH-06 | Phase 3 — Dashboard : Table, Filtres & KPI | Pending |
+| DASH-07 | Phase 3 — Dashboard : Table, Filtres & KPI | Pending |
+| DASH-08 | Phase 3 — Dashboard : Table, Filtres & KPI | Pending |
+| DASH-05 | Phase 4 — Dashboard : Side Panel & Fil d'Activité | Pending |
+| SYNC-01 | Phase 5 — Synchronisation Pennylane Manuelle | Pending |
+| SYNC-02 | Phase 5 — Synchronisation Pennylane Manuelle | Pending |
+| SYNC-03 | Phase 5 — Synchronisation Pennylane Manuelle | Pending |
+| SYNC-05 | Phase 5 — Synchronisation Pennylane Manuelle | Pending |
+| SYNC-06 | Phase 5 — Synchronisation Pennylane Manuelle | Pending |
+| SYNC-07 | Phase 5 — Synchronisation Pennylane Manuelle | Pending |
+| TEAM-01 | Phase 6 — Gestion Cabinet & Paramètres | Pending |
+| TEAM-02 | Phase 6 — Gestion Cabinet & Paramètres | Pending |
+| TEAM-03 | Phase 6 — Gestion Cabinet & Paramètres | Pending |
+| TEAM-04 | Phase 6 — Gestion Cabinet & Paramètres | Pending |
+| TEAM-05 | Phase 6 — Gestion Cabinet & Paramètres | Pending |
+| SETT-01 | Phase 6 — Gestion Cabinet & Paramètres | Pending |
+| SETT-02 | Phase 6 — Gestion Cabinet & Paramètres | Pending |
+| SETT-03 | Phase 6 — Gestion Cabinet & Paramètres | Pending |
+| SETT-04 | Phase 6 — Gestion Cabinet & Paramètres | Pending |
+| SETT-05 | Phase 6 — Gestion Cabinet & Paramètres | Pending |
+| BILL-01 | Phase 7 — Abonnements Stripe | Pending |
+| BILL-02 | Phase 7 — Abonnements Stripe | Pending |
+| BILL-03 | Phase 7 — Abonnements Stripe | Pending |
+| BILL-04 | Phase 7 — Abonnements Stripe | Pending |
+| BILL-05 | Phase 7 — Abonnements Stripe | Pending |
+| SYNC-04 | Phase 8 — Synchronisation Automatique : pg_cron | Pending |
+| LAND-01 | Phase 9 — Landing Page | Pending |
+| LAND-02 | Phase 9 — Landing Page | Pending |
+| LAND-03 | Phase 9 — Landing Page | Pending |
+| LAND-04 | Phase 9 — Landing Page | Pending |
+| LAND-05 | Phase 9 — Landing Page | Pending |
+| LAND-06 | Phase 9 — Landing Page | Pending |
 
 **Coverage:**
-- v1 requirements: 47 total
-- Mapped to phases: 47
-- Unmapped: 0 ✓
+- v1 requirements: 49 total
+- Mapped to phases: 49
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-03-16*
-*Last updated: 2026-03-16 after initial definition*
+*Last updated: 2026-03-16 after roadmap creation*
