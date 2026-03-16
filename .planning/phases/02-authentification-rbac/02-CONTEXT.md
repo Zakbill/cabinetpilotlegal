@@ -28,10 +28,22 @@ Première phase frontend : mise en place de l'application Next.js + auth Supabas
   src/
     app/          # routes App Router
     components/   # composants partagés
-    lib/          # utilitaires, clients Supabase
+    lib/          # utilitaires, clients Supabase, design tokens
     hooks/        # hooks React custom
+    styles/       # globals.css uniquement
   middleware.ts   # à la racine (next à package.json)
   ```
+
+### Design tokens — source unique de vérité (décision transversale)
+
+- **Fichier obligatoire** : `src/lib/design-tokens.ts` — créé dès le bootstrap en Phase 2, utilisé par toutes les phases suivantes
+- Contient : couleurs, typographie, espacement, border-radius, ombres, breakpoints, gradients
+- Draft disponible : `.planning/artifacts/design-tokens.ts` — le copier verbatim vers `src/lib/design-tokens.ts` lors du setup
+- **Règle absolue** : aucun composant ne hardcode une couleur, police, ou valeur de spacing directement
+  - ❌ `style={{ color: '#4f46e5' }}` ou `className="text-indigo-600"` en dur
+  - ✅ `import { colors } from '@/lib/design-tokens'` + `style={{ color: colors.indigo600 }}`
+  - ✅ Variables CSS custom (`--color-indigo-600`) définies dans `globals.css` à partir des tokens, utilisées via `var()`
+- **S'applique à toutes les phases** — chaque phase frontend doit importer les tokens, jamais les redéfinir
 
 ### Clients Supabase
 
@@ -118,6 +130,10 @@ Première phase frontend : mise en place de l'application Next.js + auth Supabas
 ### Contraintes techniques
 - `.planning/PROJECT.md` §Constraints — Tech stack (Supabase Auth, shadcn/ui, Framer Motion, Resend, Bun), design system (indigo/white/zinc, Cal Sans/DM Sans, border-radius lg)
 - `.planning/PROJECT.md` §Key Decisions — Décisions architecturales validées
+
+### Design tokens (référence obligatoire pour tout phase frontend)
+- `.planning/artifacts/design-tokens.ts` — draft du fichier `src/lib/design-tokens.ts` à créer en Phase 2
+- `.planning/phases/02-authentification-rbac/02-UI-SPEC.md` — contrat visuel complet (couleurs, typo, espacement, copy)
 
 </canonical_refs>
 
