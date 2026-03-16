@@ -19,7 +19,7 @@ created: 2026-03-16
 | Property | Value | Source |
 |----------|-------|--------|
 | Tool | shadcn/ui | PROJECT.md Constraints |
-| Preset | To be initialized at project bootstrap (`npx shadcn init`) | PROJECT.md Constraints |
+| Preset | To be initialized at project bootstrap (`bunx shadcn@latest init`) | PROJECT.md Constraints |
 | Component library | shadcn/ui (Radix UI primitives) — no mixing with other component libraries | PROJECT.md Constraints |
 | Icon library | Lucide React (bundled with shadcn/ui) | Default for shadcn stack |
 | Font — Headings | Cal Sans | PROJECT.md Constraints |
@@ -27,7 +27,7 @@ created: 2026-03-16
 | Border radius | `lg` everywhere — no exceptions | PROJECT.md Constraints |
 | Dark mode | Supported via shadcn theming (CSS variables) | PROJECT.md Constraints |
 
-**Note:** `components.json` does not exist yet. Phase 2 initialises the Next.js project from scratch. The executor MUST run `npx shadcn init` at the start of Phase 2 before building any component. No components.json = no shadcn commands work.
+**Note:** `components.json` does not exist yet. Phase 2 initialises the Next.js project from scratch. The executor MUST run `bunx shadcn@latest init` at the start of Phase 2 before building any component. No components.json = no shadcn commands work.
 
 ---
 

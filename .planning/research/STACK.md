@@ -29,7 +29,7 @@
 | class-variance-authority | 0.7.x | Variant management | Used internally by shadcn; keep in sync with shadcn's own usage |
 | clsx + tailwind-merge | latest | Class merging | Standard `cn()` helper pattern from shadcn |
 
-**Critical:** shadcn/ui is installed via `npx shadcn-ui@latest init`. Do NOT install it as a package. Components are copied into your repo under `src/components/ui/`. This is intentional — you own and modify them.
+**Critical:** shadcn/ui is installed via `bunx shadcn@latest init`. Do NOT install it as a package. Components are copied into your repo under `src/components/ui/`. This is intentional — you own and modify them.
 
 ### Animations
 
@@ -417,7 +417,7 @@ npm install -D tailwindcss@^3.4 postcss autoprefixer
 npx tailwindcss init -p
 
 # 3. Initialize shadcn/ui (follow prompts: style=New York, baseColor=zinc, cssVariables=yes)
-npx shadcn-ui@latest init
+bunx shadcn@latest init
 
 # 4. Core dependencies
 npm install @supabase/supabase-js @tanstack/react-table @tanstack/react-query
