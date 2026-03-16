@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Phase 1 context gathered
-last_updated: "2026-03-15T23:22:20.166Z"
+stopped_at: Completed 01-01-PLAN.md — pgTAP scaffolds créés
+last_updated: "2026-03-16T05:40:45.288Z"
 last_activity: 2026-03-16 — Roadmap créé (9 phases, 49 requirements mapped)
 progress:
   total_phases: 9
   completed_phases: 0
-  total_plans: 0
-  completed_plans: 0
+  total_plans: 4
+  completed_plans: 1
   percent: 0
 ---
 
@@ -35,6 +35,7 @@ Progress: [░░░░░░░░░░] 0%
 ## Performance Metrics
 
 **Velocity:**
+
 - Total plans completed: 0
 - Average duration: -
 - Total execution time: 0 hours
@@ -42,14 +43,16 @@ Progress: [░░░░░░░░░░] 0%
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
-|-------|-------|-------|----------|
-| - | - | - | - |
+| ----- | ----- | ----- | -------- |
+| -     | -     | -     | -        |
 
 **Recent Trend:**
+
 - Last 5 plans: -
 - Trend: -
 
-*Updated after each plan completion*
+_Updated after each plan completion_
+| Phase 01 P01 | 3 | 3 tasks | 7 files |
 
 ## Accumulated Context
 
@@ -63,6 +66,8 @@ Recent decisions affecting current work:
 - [Init]: Supabase Vault pour les credentials Redshift — sécurité non-négociable
 - [Init]: Statuts personnalisables par org — rigidité = rejet produit
 - [Init]: Pricing par dossiers actifs (pas par siège)
+- [Phase 01-01]: pgTAP natif avec set local request.jwt.claims — évite dépendance supabase-test-helpers non officielle
+- [Phase 01-01]: Pattern subquery sur nom organisation dans pgTAP — évite DECLARE hors DO block
 
 ### Pending Todos
 
@@ -75,6 +80,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-15T23:22:20.158Z
-Stopped at: Phase 1 context gathered
-Resume file: .planning/phases/01-fondation-sch-ma-rls/01-CONTEXT.md
+Last session: 2026-03-16T05:40:45.284Z
+Stopped at: Completed 01-01-PLAN.md — pgTAP scaffolds créés
+Resume file: None

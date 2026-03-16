@@ -9,11 +9,11 @@
 
 ### Foundation — Schema & RLS
 
-- [ ] **FOUND-01**: Le schéma central `dossiers` expose un champ `type` extensible (ex : "AGO", "création de société") — les champs AGO-spécifiques (`date_cloture`, `date_echeance`, `id_pennylane`) ne contraignent pas les autres types de missions
-- [ ] **FOUND-02**: Isolation multi-tenant en 3 niveaux via Supabase RLS : organisation (groupe) → cabinets → utilisateurs
-- [ ] **FOUND-03**: JWT custom claims (`org_id`, `role`) stockés dans `auth.users.raw_app_meta_data` et lus via `auth.jwt()->'app_metadata'` pour des politiques RLS performantes
-- [ ] **FOUND-04**: Statuts entièrement personnalisables par organisation — table `org_statuses` avec ordre, labels, type (`normal` ou `terminal`). Statuts pré-chargés à la création du groupe : Non commencé → Rédaction PV → Envoyé au client → PV Signé → PV / Comptes déposés → Attente récépissé → Terminé + 6 statuts terminaux par défaut
-- [ ] **FOUND-05**: Suppression d'un statut en cours d'utilisation bloquée au niveau DB (`ON DELETE RESTRICT`) avec message d'erreur clair dans l'UI
+- [x] **FOUND-01**: Le schéma central `dossiers` expose un champ `type` extensible (ex : "AGO", "création de société") — les champs AGO-spécifiques (`date_cloture`, `date_echeance`, `id_pennylane`) ne contraignent pas les autres types de missions
+- [x] **FOUND-02**: Isolation multi-tenant en 3 niveaux via Supabase RLS : organisation (groupe) → cabinets → utilisateurs
+- [x] **FOUND-03**: JWT custom claims (`org_id`, `role`) stockés dans `auth.users.raw_app_meta_data` et lus via `auth.jwt()->'app_metadata'` pour des politiques RLS performantes
+- [x] **FOUND-04**: Statuts entièrement personnalisables par organisation — table `org_statuses` avec ordre, labels, type (`normal` ou `terminal`). Statuts pré-chargés à la création du groupe : Non commencé → Rédaction PV → Envoyé au client → PV Signé → PV / Comptes déposés → Attente récépissé → Terminé + 6 statuts terminaux par défaut
+- [x] **FOUND-05**: Suppression d'un statut en cours d'utilisation bloquée au niveau DB (`ON DELETE RESTRICT`) avec message d'erreur clair dans l'UI
 
 ### Authentification & Onboarding
 
@@ -109,82 +109,84 @@
 
 ## Out of Scope
 
-| Fonctionnalité | Raison |
-|----------------|--------|
-| Authentification par mot de passe | Magic link uniquement — décision produit v1 |
-| OAuth (Google, Microsoft) | Non nécessaire pour le marché cible en v1 |
-| Application mobile native | Web-first, mobile plus tard |
-| Chat temps réel entre membres | Le fil d'activité par dossier couvre le besoin |
-| Pièces jointes dans les commentaires | Complexité stockage/sécurité non justifiée en v1 |
-| Mentions / réactions dans les commentaires | V2+ |
-| Internationalisation (i18n) | Marché exclusivement français |
-| Intégrations autres qu'Pennylane | V2+ |
-| Client portal (accès direct client final) | Hors scope — outil interne cabinet |
-| Kanban / vue alternative à la table | La table avec side panel couvre le workflow |
-| Vue Gantt ou timeline | Hors scope v1 |
-| Drafting IA de PV | Complexité IA non justifiée en v1 |
+| Fonctionnalité                             | Raison                                           |
+| ------------------------------------------ | ------------------------------------------------ |
+| Authentification par mot de passe          | Magic link uniquement — décision produit v1      |
+| OAuth (Google, Microsoft)                  | Non nécessaire pour le marché cible en v1        |
+| Application mobile native                  | Web-first, mobile plus tard                      |
+| Chat temps réel entre membres              | Le fil d'activité par dossier couvre le besoin   |
+| Pièces jointes dans les commentaires       | Complexité stockage/sécurité non justifiée en v1 |
+| Mentions / réactions dans les commentaires | V2+                                              |
+| Internationalisation (i18n)                | Marché exclusivement français                    |
+| Intégrations autres qu'Pennylane           | V2+                                              |
+| Client portal (accès direct client final)  | Hors scope — outil interne cabinet               |
+| Kanban / vue alternative à la table        | La table avec side panel couvre le workflow      |
+| Vue Gantt ou timeline                      | Hors scope v1                                    |
+| Drafting IA de PV                          | Complexité IA non justifiée en v1                |
 
 ---
 
 ## Traceability
 
-| Requirement | Phase | Status |
-|-------------|-------|--------|
-| FOUND-01 | Phase 1 — Fondation : Schéma & RLS | Pending |
-| FOUND-02 | Phase 1 — Fondation : Schéma & RLS | Pending |
-| FOUND-03 | Phase 1 — Fondation : Schéma & RLS | Pending |
-| FOUND-04 | Phase 1 — Fondation : Schéma & RLS | Pending |
-| FOUND-05 | Phase 1 — Fondation : Schéma & RLS | Pending |
-| AUTH-01 | Phase 2 — Authentification & RBAC | Pending |
-| AUTH-02 | Phase 2 — Authentification & RBAC | Pending |
-| AUTH-03 | Phase 2 — Authentification & RBAC | Pending |
-| AUTH-04 | Phase 2 — Authentification & RBAC | Pending |
-| AUTH-05 | Phase 2 — Authentification & RBAC | Pending |
-| RBAC-01 | Phase 2 — Authentification & RBAC | Pending |
-| RBAC-02 | Phase 2 — Authentification & RBAC | Pending |
-| RBAC-03 | Phase 2 — Authentification & RBAC | Pending |
-| DASH-01 | Phase 3 — Dashboard : Table, Filtres & KPI | Pending |
-| DASH-02 | Phase 3 — Dashboard : Table, Filtres & KPI | Pending |
-| DASH-03 | Phase 3 — Dashboard : Table, Filtres & KPI | Pending |
-| DASH-04 | Phase 3 — Dashboard : Table, Filtres & KPI | Pending |
-| DASH-06 | Phase 3 — Dashboard : Table, Filtres & KPI | Pending |
-| DASH-07 | Phase 3 — Dashboard : Table, Filtres & KPI | Pending |
-| DASH-08 | Phase 3 — Dashboard : Table, Filtres & KPI | Pending |
-| DASH-05 | Phase 4 — Dashboard : Side Panel & Fil d'Activité | Pending |
-| SYNC-01 | Phase 5 — Synchronisation Pennylane Manuelle | Pending |
-| SYNC-02 | Phase 5 — Synchronisation Pennylane Manuelle | Pending |
-| SYNC-03 | Phase 5 — Synchronisation Pennylane Manuelle | Pending |
-| SYNC-05 | Phase 5 — Synchronisation Pennylane Manuelle | Pending |
-| SYNC-06 | Phase 5 — Synchronisation Pennylane Manuelle | Pending |
-| SYNC-07 | Phase 5 — Synchronisation Pennylane Manuelle | Pending |
-| TEAM-01 | Phase 6 — Gestion Cabinet & Paramètres | Pending |
-| TEAM-02 | Phase 6 — Gestion Cabinet & Paramètres | Pending |
-| TEAM-03 | Phase 6 — Gestion Cabinet & Paramètres | Pending |
-| TEAM-04 | Phase 6 — Gestion Cabinet & Paramètres | Pending |
-| TEAM-05 | Phase 6 — Gestion Cabinet & Paramètres | Pending |
-| SETT-01 | Phase 6 — Gestion Cabinet & Paramètres | Pending |
-| SETT-02 | Phase 6 — Gestion Cabinet & Paramètres | Pending |
-| SETT-03 | Phase 6 — Gestion Cabinet & Paramètres | Pending |
-| SETT-04 | Phase 6 — Gestion Cabinet & Paramètres | Pending |
-| SETT-05 | Phase 6 — Gestion Cabinet & Paramètres | Pending |
-| BILL-01 | Phase 7 — Abonnements Stripe | Pending |
-| BILL-02 | Phase 7 — Abonnements Stripe | Pending |
-| BILL-03 | Phase 7 — Abonnements Stripe | Pending |
-| BILL-04 | Phase 7 — Abonnements Stripe | Pending |
-| BILL-05 | Phase 7 — Abonnements Stripe | Pending |
-| SYNC-04 | Phase 8 — Synchronisation Automatique : pg_cron | Pending |
-| LAND-01 | Phase 9 — Landing Page | Pending |
-| LAND-02 | Phase 9 — Landing Page | Pending |
-| LAND-03 | Phase 9 — Landing Page | Pending |
-| LAND-04 | Phase 9 — Landing Page | Pending |
-| LAND-05 | Phase 9 — Landing Page | Pending |
-| LAND-06 | Phase 9 — Landing Page | Pending |
+| Requirement | Phase                                             | Status  |
+| ----------- | ------------------------------------------------- | ------- |
+| FOUND-01    | Phase 1 — Fondation : Schéma & RLS                | Complete |
+| FOUND-02    | Phase 1 — Fondation : Schéma & RLS                | Complete |
+| FOUND-03    | Phase 1 — Fondation : Schéma & RLS                | Complete |
+| FOUND-04    | Phase 1 — Fondation : Schéma & RLS                | Complete |
+| FOUND-05    | Phase 1 — Fondation : Schéma & RLS                | Complete |
+| AUTH-01     | Phase 2 — Authentification & RBAC                 | Pending |
+| AUTH-02     | Phase 2 — Authentification & RBAC                 | Pending |
+| AUTH-03     | Phase 2 — Authentification & RBAC                 | Pending |
+| AUTH-04     | Phase 2 — Authentification & RBAC                 | Pending |
+| AUTH-05     | Phase 2 — Authentification & RBAC                 | Pending |
+| RBAC-01     | Phase 2 — Authentification & RBAC                 | Pending |
+| RBAC-02     | Phase 2 — Authentification & RBAC                 | Pending |
+| RBAC-03     | Phase 2 — Authentification & RBAC                 | Pending |
+| DASH-01     | Phase 3 — Dashboard : Table, Filtres & KPI        | Pending |
+| DASH-02     | Phase 3 — Dashboard : Table, Filtres & KPI        | Pending |
+| DASH-03     | Phase 3 — Dashboard : Table, Filtres & KPI        | Pending |
+| DASH-04     | Phase 3 — Dashboard : Table, Filtres & KPI        | Pending |
+| DASH-06     | Phase 3 — Dashboard : Table, Filtres & KPI        | Pending |
+| DASH-07     | Phase 3 — Dashboard : Table, Filtres & KPI        | Pending |
+| DASH-08     | Phase 3 — Dashboard : Table, Filtres & KPI        | Pending |
+| DASH-05     | Phase 4 — Dashboard : Side Panel & Fil d'Activité | Pending |
+| SYNC-01     | Phase 5 — Synchronisation Pennylane Manuelle      | Pending |
+| SYNC-02     | Phase 5 — Synchronisation Pennylane Manuelle      | Pending |
+| SYNC-03     | Phase 5 — Synchronisation Pennylane Manuelle      | Pending |
+| SYNC-05     | Phase 5 — Synchronisation Pennylane Manuelle      | Pending |
+| SYNC-06     | Phase 5 — Synchronisation Pennylane Manuelle      | Pending |
+| SYNC-07     | Phase 5 — Synchronisation Pennylane Manuelle      | Pending |
+| TEAM-01     | Phase 6 — Gestion Cabinet & Paramètres            | Pending |
+| TEAM-02     | Phase 6 — Gestion Cabinet & Paramètres            | Pending |
+| TEAM-03     | Phase 6 — Gestion Cabinet & Paramètres            | Pending |
+| TEAM-04     | Phase 6 — Gestion Cabinet & Paramètres            | Pending |
+| TEAM-05     | Phase 6 — Gestion Cabinet & Paramètres            | Pending |
+| SETT-01     | Phase 6 — Gestion Cabinet & Paramètres            | Pending |
+| SETT-02     | Phase 6 — Gestion Cabinet & Paramètres            | Pending |
+| SETT-03     | Phase 6 — Gestion Cabinet & Paramètres            | Pending |
+| SETT-04     | Phase 6 — Gestion Cabinet & Paramètres            | Pending |
+| SETT-05     | Phase 6 — Gestion Cabinet & Paramètres            | Pending |
+| BILL-01     | Phase 7 — Abonnements Stripe                      | Pending |
+| BILL-02     | Phase 7 — Abonnements Stripe                      | Pending |
+| BILL-03     | Phase 7 — Abonnements Stripe                      | Pending |
+| BILL-04     | Phase 7 — Abonnements Stripe                      | Pending |
+| BILL-05     | Phase 7 — Abonnements Stripe                      | Pending |
+| SYNC-04     | Phase 8 — Synchronisation Automatique : pg_cron   | Pending |
+| LAND-01     | Phase 9 — Landing Page                            | Pending |
+| LAND-02     | Phase 9 — Landing Page                            | Pending |
+| LAND-03     | Phase 9 — Landing Page                            | Pending |
+| LAND-04     | Phase 9 — Landing Page                            | Pending |
+| LAND-05     | Phase 9 — Landing Page                            | Pending |
+| LAND-06     | Phase 9 — Landing Page                            | Pending |
 
 **Coverage:**
+
 - v1 requirements: 49 total
 - Mapped to phases: 49
 - Unmapped: 0
 
 ---
-*Requirements defined: 2026-03-16*
-*Last updated: 2026-03-16 after roadmap creation*
+
+_Requirements defined: 2026-03-16_
+_Last updated: 2026-03-16 after roadmap creation_
