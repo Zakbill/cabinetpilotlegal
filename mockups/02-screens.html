@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CabinetPilot — Phase 2 Screens</title>
+  <title>CabinetPilot — Phase 2 Screens v2</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600&display=swap" rel="stylesheet" />
@@ -17,56 +17,58 @@
       font-display: swap;
     }
 
-    /* ─── Design Tokens ─────────────────────────────────────── */
+    /* ─── Design Tokens v2 ──────────────────────────────────── */
     :root {
-      --color-white:     #ffffff;
-      --color-zinc-50:   #fafafa;
-      --color-zinc-100:  #f4f4f5;
-      --color-zinc-200:  #e4e4e7;
-      --color-zinc-300:  #d4d4d8;
-      --color-zinc-400:  #a1a1aa;
-      --color-zinc-500:  #71717a;
-      --color-zinc-600:  #52525b;
-      --color-zinc-900:  #18181b;
-      --color-indigo-50: #eef2ff;
-      --color-indigo-100:#e0e7ff;
-      --color-indigo-600:#4f46e5;
-      --color-indigo-700:#4338ca;
-      --color-indigo-900:#312e81;
-      --color-red-500:   #ef4444;
-      --color-red-600:   #dc2626;
-      --color-green-600: #16a34a;
+      /* Colors */
+      --white:      #ffffff;
+      --zinc-50:    #fafafa;
+      --zinc-100:   #f4f4f5;
+      --zinc-200:   #e4e4e7;
+      --zinc-300:   #d4d4d8;
+      --zinc-400:   #a1a1aa;
+      --zinc-500:   #71717a;
+      --zinc-600:   #52525b;
+      --zinc-700:   #3f3f46;
+      --zinc-900:   #18181b;
+      --indigo-50:  #eef2ff;
+      --indigo-100: #e0e7ff;
+      --indigo-600: #4f46e5;
+      --indigo-700: #4338ca;
+      --red-500:    #ef4444;
+      --red-600:    #dc2626;
+      --green-600:  #16a34a;
 
+      /* Typography */
       --font-sans:    'DM Sans', system-ui, sans-serif;
       --font-display: 'Cal Sans', 'DM Sans', system-ui, sans-serif;
+      --text-sm:   14px;   /* labels, helper, skip */
+      --text-base: 16px;   /* body */
+      --text-lg:   22px;   /* headings */
+      --text-xl:   32px;   /* display / Cal Sans */
 
-      --text-sm:   14px;
-      --text-base: 16px;
-      --text-lg:   20px;
-      --text-xl:   28px;
+      /* Spacing v2 */
+      --sp-xs:  6px;
+      --sp-sm:  12px;
+      --sp-md:  20px;
+      --sp-lg:  32px;
+      --sp-xl:  40px;
+      --sp-2xl: 64px;
+      --sp-3xl: 80px;
 
-      --weight-regular:  400;
-      --weight-semibold: 600;
+      /* Other */
+      --radius:    8px;
+      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / .05);
 
-      --radius-lg: 8px;
-
-      --space-xs:  4px;
-      --space-sm:  8px;
-      --space-md:  16px;
-      --space-lg:  24px;
-      --space-xl:  32px;
-      --space-2xl: 48px;
-      --space-3xl: 64px;
-
-      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+      /* Gradient v2 — rich indigo→violet */
+      --gradient-panel: linear-gradient(135deg, #4338ca 0%, #6d28d9 100%);
     }
 
-    /* ─── Reset & Base ──────────────────────────────────────── */
+    /* ─── Reset ─────────────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: var(--font-sans);
       font-size: var(--text-base);
-      color: var(--color-zinc-900);
+      color: var(--zinc-900);
       background: #e2e8f0;
       min-height: 100vh;
     }
@@ -76,7 +78,7 @@
       position: sticky;
       top: 0;
       z-index: 100;
-      background: var(--color-zinc-900);
+      background: #0f172a;
       display: flex;
       gap: 2px;
       padding: 10px 16px;
@@ -90,22 +92,21 @@
       border-radius: 6px;
       border: none;
       background: transparent;
-      color: var(--color-zinc-400);
+      color: var(--zinc-400);
       font-family: var(--font-sans);
       font-size: 13px;
-      font-weight: var(--weight-semibold);
+      font-weight: 600;
       cursor: pointer;
       transition: background 150ms, color 150ms;
       white-space: nowrap;
     }
-    .tab-btn:hover { background: rgba(255,255,255,.08); color: var(--color-white); }
-    .tab-btn.active { background: var(--color-indigo-600); color: var(--color-white); }
+    .tab-btn:hover  { background: rgba(255,255,255,.07); color: #fff; }
+    .tab-btn.active { background: var(--indigo-600); color: #fff; }
 
-    /* ─── Screen Container ──────────────────────────────────── */
+    /* ─── Screen & Browser Chrome ───────────────────────────── */
     .screen { display: none; }
     .screen.active { display: flex; }
 
-    /* wrapper that simulates browser chrome */
     .browser-wrap {
       width: 100%;
       padding: 24px;
@@ -115,55 +116,49 @@
       margin: 0 auto;
       border-radius: 12px;
       overflow: hidden;
-      box-shadow: 0 20px 60px rgba(0,0,0,.25);
+      box-shadow: 0 24px 64px rgba(0,0,0,.28);
     }
     .browser-bar {
-      background: #2d2d2d;
+      background: #1e293b;
       padding: 10px 16px;
       display: flex;
       align-items: center;
       gap: 12px;
     }
     .browser-dots { display: flex; gap: 6px; }
-    .browser-dots span {
-      width: 12px; height: 12px;
-      border-radius: 50%;
-    }
-    .dot-red   { background: #ff5f57; }
-    .dot-yellow{ background: #ffbd2e; }
-    .dot-green { background: #28c840; }
+    .browser-dots span { width: 12px; height: 12px; border-radius: 50%; }
+    .dot-r { background: #ff5f57; }
+    .dot-y { background: #ffbd2e; }
+    .dot-g { background: #28c840; }
     .browser-url {
       flex: 1;
-      background: #3d3d3d;
+      background: #334155;
       border-radius: 6px;
       padding: 4px 12px;
       font-family: var(--font-sans);
       font-size: 12px;
-      color: #9ca3af;
+      color: #94a3b8;
     }
 
-    /* ─── Shared Components ─────────────────────────────────── */
+    /* ─── Shared UI Components ──────────────────────────────── */
     .btn-primary {
       display: flex;
       align-items: center;
       justify-content: center;
+      gap: 8px;
       width: 100%;
       height: 48px;
-      background: var(--color-indigo-600);
-      color: var(--color-white);
+      background: var(--indigo-600);
+      color: #fff;
       font-family: var(--font-sans);
       font-size: var(--text-sm);
-      font-weight: var(--weight-semibold);
+      font-weight: 600;
       border: none;
-      border-radius: var(--radius-lg);
+      border-radius: var(--radius);
       cursor: pointer;
       transition: background 150ms;
     }
-    .btn-primary:hover { background: var(--color-indigo-700); }
-    .btn-primary:focus-visible {
-      outline: none;
-      box-shadow: 0 0 0 2px var(--color-white), 0 0 0 4px var(--color-indigo-600);
-    }
+    .btn-primary:hover { background: var(--indigo-700); }
 
     .btn-outline {
       display: flex;
@@ -172,105 +167,88 @@
       gap: 8px;
       width: 100%;
       height: 48px;
-      background: var(--color-white);
-      color: var(--color-zinc-900);
+      background: var(--white);
+      color: var(--zinc-700);
       font-family: var(--font-sans);
       font-size: var(--text-sm);
-      font-weight: var(--weight-semibold);
-      border: 1px solid var(--color-zinc-200);
-      border-radius: var(--radius-lg);
+      font-weight: 600;
+      border: 1px solid var(--zinc-200);
+      border-radius: var(--radius);
       cursor: pointer;
       transition: border-color 150ms;
     }
-    .btn-outline:hover { border-color: var(--color-zinc-300); }
+    .btn-outline:hover { border-color: var(--zinc-300); }
 
-    .form-group { display: flex; flex-direction: column; gap: var(--space-xs); }
-    .form-label {
-      font-size: var(--text-sm);
-      font-weight: var(--weight-semibold);
-      color: var(--color-zinc-900);
-    }
+    .form-group { display: flex; flex-direction: column; gap: var(--sp-xs); }
+    .form-label { font-size: var(--text-sm); font-weight: 600; color: var(--zinc-900); }
     .form-input {
       height: 40px;
-      padding: 0 var(--space-md);
-      background: var(--color-white);
-      border: 1px solid var(--color-zinc-200);
-      border-radius: var(--radius-lg);
+      padding: 0 var(--sp-sm);
+      background: var(--white);
+      border: 1px solid var(--zinc-200);
+      border-radius: var(--radius);
       font-family: var(--font-sans);
       font-size: var(--text-sm);
-      color: var(--color-zinc-900);
+      color: var(--zinc-900);
       outline: none;
       transition: border-color 150ms, box-shadow 150ms;
     }
-    .form-input::placeholder { color: var(--color-zinc-400); }
+    .form-input::placeholder { color: var(--zinc-400); }
     .form-input:focus {
-      border-color: var(--color-indigo-600);
+      border-color: var(--indigo-600);
       box-shadow: 0 0 0 2px rgba(79,70,229,.15);
     }
-    .form-input.error { border-color: var(--color-red-500); }
-    .form-error {
-      font-size: 13px;
-      color: var(--color-red-600);
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-    .helper-text {
-      font-size: 13px;
-      color: var(--color-zinc-500);
-      line-height: 1.4;
-    }
+    .helper-text { font-size: 13px; color: var(--zinc-500); line-height: 1.5; }
+    .req { color: var(--red-500); }
+    .opt { color: var(--zinc-400); font-weight: 400; }
+
     .link-skip {
       display: block;
       text-align: center;
       font-size: var(--text-sm);
-      color: var(--color-zinc-400);
+      color: var(--zinc-400);
       text-decoration: none;
       cursor: pointer;
-      transition: color 150ms;
     }
-    .link-skip:hover { color: var(--color-zinc-600); text-decoration: underline; }
-    .link-accent {
-      color: var(--color-indigo-600);
-      text-decoration: none;
-      font-size: var(--text-sm);
-      cursor: pointer;
-    }
+    .link-skip:hover { color: var(--zinc-600); text-decoration: underline; }
+    .link-accent { color: var(--indigo-600); text-decoration: none; font-size: var(--text-sm); cursor: pointer; }
     .link-accent:hover { text-decoration: underline; }
 
-    /* ─── Logo ──────────────────────────────────────────────── */
+    .separator { height: 1px; background: var(--zinc-200); width: 100%; }
+
+    /* ─── Logo — wordmark only, no icon ─────────────────────── */
     .logo {
-      display: flex;
-      align-items: center;
-      gap: 8px;
       font-family: var(--font-display);
       font-size: 18px;
-      font-weight: var(--weight-semibold);
-      color: var(--color-zinc-900);
+      font-weight: 600;
+      color: var(--zinc-900);
       text-decoration: none;
-    }
-    .logo-icon {
-      width: 28px; height: 28px;
-      background: var(--color-indigo-600);
-      border-radius: 6px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-size: 14px;
+      letter-spacing: -.01em;
     }
 
-    /* ─── SCREEN 1 & 2: Login Split-Screen ──────────────────── */
+    /* badge */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      background: var(--indigo-50);
+      color: var(--indigo-600);
+    }
+
+    /* ─── Login Layout ───────────────────────────────────────── */
     .login-layout {
       display: grid;
       grid-template-columns: 1fr 1fr;
       min-height: 680px;
     }
     .login-left {
-      background: var(--color-white);
+      background: var(--white);
       display: flex;
       flex-direction: column;
-      padding: var(--space-xl);
+      padding: var(--sp-xl);
     }
     .login-left-inner {
       flex: 1;
@@ -280,14 +258,18 @@
       max-width: 360px;
       margin: 0 auto;
       width: 100%;
-      gap: var(--space-lg);
+      gap: var(--sp-lg);
     }
+    .login-title   { font-size: var(--text-lg); font-weight: 600; color: var(--zinc-900); }
+    .login-subtitle { font-size: var(--text-sm); color: var(--zinc-500); line-height: 1.6; }
+    .login-form    { display: flex; flex-direction: column; gap: var(--sp-md); }
+
     .login-right {
-      background: linear-gradient(135deg, rgba(99,102,241,.2) 0%, rgba(67,56,202,.4) 100%);
+      background: var(--gradient-panel);
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: var(--space-2xl);
+      padding: var(--sp-2xl);
       position: relative;
       overflow: hidden;
     }
@@ -296,108 +278,58 @@
       position: absolute;
       inset: 0;
       background:
-        radial-gradient(ellipse at 30% 50%, rgba(99,102,241,.3) 0%, transparent 60%),
-        radial-gradient(ellipse at 70% 20%, rgba(139,92,246,.2) 0%, transparent 50%);
+        radial-gradient(ellipse at 25% 60%, rgba(255,255,255,.08) 0%, transparent 55%),
+        radial-gradient(ellipse at 75% 30%, rgba(255,255,255,.05) 0%, transparent 45%);
     }
-    .login-right-content {
-      position: relative;
-      z-index: 1;
-      max-width: 320px;
-      text-align: center;
-    }
+    .login-right-content { position: relative; z-index: 1; max-width: 320px; text-align: center; }
     .login-right-headline {
       font-family: var(--font-display);
       font-size: var(--text-xl);
-      font-weight: var(--weight-semibold);
-      color: var(--color-indigo-900);
-      line-height: 1.2;
-      margin-bottom: var(--space-md);
+      font-weight: 600;
+      color: #fff;
+      line-height: 1.15;
+      margin-bottom: var(--sp-md);
     }
-    .login-right-body {
-      font-size: var(--text-sm);
-      color: var(--color-indigo-900);
-      line-height: 1.6;
-      opacity: .75;
-    }
-    .login-form-header { display: flex; flex-direction: column; gap: 6px; }
-    .login-title {
-      font-size: var(--text-lg);
-      font-weight: var(--weight-semibold);
-      color: var(--color-zinc-900);
-    }
-    .login-subtitle {
-      font-size: var(--text-sm);
-      color: var(--color-zinc-500);
-      line-height: 1.5;
-    }
-    .login-form { display: flex; flex-direction: column; gap: var(--space-md); }
+    .login-right-body { font-size: var(--text-sm); color: rgba(255,255,255,.75); line-height: 1.7; }
 
-    /* confirmation state */
-    .confirmation-block {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: var(--space-md);
-    }
+    /* confirmation */
     .mail-icon-wrap {
       width: 56px; height: 56px;
       border-radius: 12px;
-      background: var(--color-indigo-50);
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      background: var(--indigo-50);
+      display: flex; align-items: center; justify-content: center;
     }
-    .confirmation-heading {
-      font-size: var(--text-lg);
-      font-weight: var(--weight-semibold);
-      color: var(--color-zinc-900);
-    }
-    .confirmation-body {
-      font-size: var(--text-base);
-      color: var(--color-zinc-600);
-      line-height: 1.6;
-    }
-    .confirmation-actions {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-sm);
-      width: 100%;
-    }
-    .back-link {
-      font-size: var(--text-sm);
-      color: var(--color-zinc-500);
-      cursor: pointer;
-      text-decoration: none;
-    }
-    .back-link:hover { color: var(--color-zinc-700); }
+    .conf-heading { font-size: var(--text-lg); font-weight: 600; color: var(--zinc-900); }
+    .conf-body    { font-size: var(--text-base); color: var(--zinc-600); line-height: 1.6; }
+    .back-link    { font-size: var(--text-sm); color: var(--zinc-500); text-decoration: none; cursor: pointer; }
+    .back-link:hover { color: var(--zinc-700); }
 
-    /* ─── SCREENS 3–7: Onboarding Wizard ────────────────────── */
-    .onboarding-layout {
-      background: var(--color-zinc-50);
+    /* ─── Onboarding Layout ──────────────────────────────────── */
+    .ob-layout {
+      background: var(--zinc-50);
       min-height: 680px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: var(--space-2xl) var(--space-lg);
+      padding: var(--sp-2xl) var(--sp-lg);
     }
-    .onboarding-inner {
+    .ob-inner {
       width: 100%;
       max-width: 520px;
       display: flex;
       flex-direction: column;
-      gap: var(--space-xl);
+      gap: var(--sp-xl);
     }
-    .onboarding-header {
+    .ob-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
-    /* Step indicator */
-    .step-indicator {
+    /* Step indicator — 4 steps */
+    .step-track {
       display: flex;
       align-items: flex-start;
-      gap: 0;
       width: 100%;
     }
     .step-item {
@@ -414,741 +346,543 @@
       left: 50%;
       width: 100%;
       height: 1px;
-      background: var(--color-zinc-200);
+      background: var(--zinc-200);
       z-index: 0;
     }
     .step-circle {
       width: 32px; height: 32px;
       border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 13px;
-      font-weight: var(--weight-semibold);
-      position: relative;
-      z-index: 1;
-      transition: background 200ms;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 600;
+      position: relative; z-index: 1;
     }
-    .step-circle.active   { background: var(--color-indigo-600); color: var(--color-white); }
-    .step-circle.done     { background: var(--color-indigo-100); color: var(--color-indigo-600); }
-    .step-circle.upcoming { background: var(--color-zinc-200);   color: var(--color-zinc-400); }
+    .s-active   { background: var(--indigo-600); color: #fff; }
+    .s-done     { background: var(--indigo-100); color: var(--indigo-600); }
+    .s-upcoming { background: var(--zinc-200);   color: var(--zinc-400); }
     .step-label {
       margin-top: 6px;
       font-size: 12px;
-      color: var(--color-zinc-400);
+      color: var(--zinc-400);
       text-align: center;
+      line-height: 1.3;
     }
-    .step-label.active { color: var(--color-indigo-600); font-weight: var(--weight-semibold); }
+    .step-label.active { color: var(--indigo-600); font-weight: 600; }
 
     /* Wizard card */
     .wizard-card {
-      background: var(--color-white);
-      border: 1px solid var(--color-zinc-200);
-      border-radius: var(--radius-lg);
+      background: var(--white);
+      border: 1px solid var(--zinc-200);
+      border-radius: var(--radius);
       box-shadow: var(--shadow-sm);
-      padding: var(--space-xl);
+      padding: var(--sp-xl); /* 40px */
       display: flex;
       flex-direction: column;
-      gap: var(--space-lg);
+      gap: var(--sp-lg);
     }
-    .wizard-heading {
-      font-size: var(--text-lg);
-      font-weight: var(--weight-semibold);
-      color: var(--color-zinc-900);
-    }
-    .wizard-fields { display: flex; flex-direction: column; gap: var(--space-md); }
-    .wizard-actions { display: flex; flex-direction: column; gap: var(--space-sm); }
+    .wizard-heading { font-size: var(--text-lg); font-weight: 600; color: var(--zinc-900); }
+    .wizard-fields  { display: flex; flex-direction: column; gap: var(--sp-md); }
+    .wizard-actions { display: flex; flex-direction: column; gap: var(--sp-sm); }
 
     /* avatar upload */
-    .avatar-upload {
-      display: flex;
-      align-items: center;
-      gap: var(--space-md);
-    }
+    .avatar-wrap { display: flex; align-items: center; gap: var(--sp-md); }
     .avatar-circle {
       width: 64px; height: 64px;
       border-radius: 50%;
-      background: var(--color-zinc-100);
-      border: 2px dashed var(--color-zinc-300);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      color: var(--color-zinc-400);
-      font-size: 22px;
-    }
-    .avatar-upload-text {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    /* checkbox row */
-    .checkbox-row {
-      display: flex;
-      align-items: center;
-      gap: var(--space-sm);
-      cursor: pointer;
-    }
-    .checkbox-box {
-      width: 16px; height: 16px;
-      border-radius: 4px;
-      border: 1px solid var(--color-zinc-200);
-      background: var(--color-white);
-      flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .checkbox-box.checked {
-      background: var(--color-indigo-600);
-      border-color: var(--color-indigo-600);
-    }
-    .checkbox-label {
-      font-size: var(--text-sm);
-      color: var(--color-zinc-700);
-      line-height: 1.4;
+      background: var(--zinc-100);
+      border: 2px dashed var(--zinc-300);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; color: var(--zinc-400);
     }
 
     /* connection test states */
     .test-result {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
       font-size: var(--text-sm);
-      padding: 10px var(--space-md);
-      border-radius: var(--radius-lg);
+      padding: 10px var(--sp-sm);
+      border-radius: var(--radius);
     }
-    .test-result.success { background: #f0fdf4; color: var(--color-green-600); }
-    .test-result.error   { background: #fef2f2; color: var(--color-red-600); }
+    .tr-success { background: #f0fdf4; color: var(--green-600); }
+    .tr-error   { background: #fef2f2; color: var(--red-600); }
 
-    /* sync step */
-    .sync-description {
-      font-size: var(--text-base);
-      color: var(--color-zinc-600);
-      line-height: 1.6;
-    }
+    /* sync */
+    .sync-desc { font-size: var(--text-base); color: var(--zinc-600); line-height: 1.6; }
     .sync-success-card {
       background: #f0fdf4;
       border: 1px solid #bbf7d0;
-      border-radius: var(--radius-lg);
-      padding: var(--space-md);
-      display: flex;
-      align-items: center;
-      gap: var(--space-sm);
-      font-size: var(--text-sm);
-      color: var(--color-green-600);
+      border-radius: var(--radius);
+      padding: var(--sp-md);
+      display: flex; align-items: center; gap: var(--sp-sm);
+      font-size: var(--text-sm); color: var(--green-600);
     }
 
-    /* ─── SCREEN 8: Profile Gate ─────────────────────────────── */
-    .profile-gate-layout {
-      background: var(--color-zinc-50);
+    /* ─── Profile Gate ───────────────────────────────────────── */
+    .gate-layout {
+      background: var(--zinc-50);
       min-height: 680px;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: var(--space-2xl);
+      padding: var(--sp-2xl);
+      position: relative;
     }
-    .profile-gate-card {
-      background: var(--color-white);
-      border: 1px solid var(--color-zinc-200);
-      border-radius: var(--radius-lg);
+    .gate-blur {
+      position: absolute;
+      inset: 40px;
+      background: var(--zinc-100);
+      border-radius: var(--radius);
+      filter: blur(4px);
+      opacity: .35;
+      pointer-events: none;
+    }
+    .gate-card {
+      position: relative;
+      z-index: 1;
+      background: var(--white);
+      border: 1px solid var(--zinc-200);
+      border-radius: var(--radius);
       box-shadow: var(--shadow-sm);
-      padding: var(--space-2xl);
+      padding: var(--sp-xl);
       max-width: 440px;
       width: 100%;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: var(--space-lg);
+      gap: var(--sp-lg);
       text-align: center;
     }
     .gate-icon {
       width: 64px; height: 64px;
       border-radius: 50%;
-      background: var(--color-indigo-50);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 28px;
+      background: var(--indigo-50);
+      display: flex; align-items: center; justify-content: center;
     }
-    .gate-heading {
-      font-size: var(--text-lg);
-      font-weight: var(--weight-semibold);
-      color: var(--color-zinc-900);
-    }
-    .gate-body {
-      font-size: var(--text-base);
-      color: var(--color-zinc-500);
-      line-height: 1.6;
-    }
-    .gate-fields {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-md);
-      text-align: left;
-    }
+    .gate-heading { font-size: var(--text-lg); font-weight: 600; color: var(--zinc-900); }
+    .gate-body    { font-size: var(--text-base); color: var(--zinc-500); line-height: 1.6; }
+    .gate-fields  { width: 100%; text-align: left; display: flex; flex-direction: column; gap: var(--sp-md); }
 
-    /* ─── SVG Icons (inline) ─────────────────────────────────── */
-    .icon { display: inline-flex; align-items: center; justify-content: center; }
-    svg { flex-shrink: 0; }
-
-    /* ─── Separator ──────────────────────────────────────────── */
-    .separator {
-      height: 1px;
-      background: var(--color-zinc-200);
-      width: 100%;
-    }
-
-    /* ─── Pill badge ─────────────────────────────────────────── */
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      padding: 2px 8px;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: var(--weight-semibold);
-    }
-    .badge-indigo { background: var(--color-indigo-50); color: var(--color-indigo-600); }
-    .badge-green  { background: #f0fdf4; color: var(--color-green-600); }
-
-    /* ─── Mockup note bar ────────────────────────────────────── */
-    .mockup-note {
-      background: #1e293b;
-      color: #94a3b8;
-      font-size: 12px;
-      padding: 8px 24px;
+    /* ─── Mockup note ────────────────────────────────────────── */
+    .mockup-bar {
+      background: #0f172a;
+      color: #64748b;
+      font-size: 11px;
+      padding: 7px 20px;
       text-align: center;
-      letter-spacing: .02em;
+      letter-spacing: .03em;
+      border-bottom: 1px solid #1e293b;
     }
-    .mockup-note strong { color: #f1f5f9; }
+    .mockup-bar strong { color: #94a3b8; }
+
+    /* ─── SVG check icon helper ──────────────────────────────── */
+    .check-svg { display:inline-flex; }
   </style>
 </head>
 <body>
 
-<!-- ─── Tab Navigation ───────────────────────────────────────── -->
-<div class="mockup-note">
-  <strong>CabinetPilot — Phase 2 Mockup</strong> &nbsp;·&nbsp; Design tokens: indigo-600 accent · Cal Sans + DM Sans · shadcn-style · border-radius lg · 8pt spacing scale
+<div class="mockup-bar">
+  <strong>CabinetPilot — Phase 2 Mockup v2</strong>
+  &nbsp;·&nbsp; 4-step wizard · heading 22px · display 32px · spacing v2 · gradient #4338ca→#6d28d9 · wordmark-only logo
 </div>
+
+<!-- ─── Tab Nav ─────────────────────────────────────────────── -->
 <nav class="tab-nav" role="tablist">
-  <button class="tab-btn active" onclick="show('login')" role="tab">🔐 Login</button>
-  <button class="tab-btn" onclick="show('confirm')" role="tab">✉ Confirmation</button>
-  <button class="tab-btn" onclick="show('step1')" role="tab">① Profil</button>
-  <button class="tab-btn" onclick="show('step2')" role="tab">② Groupe</button>
-  <button class="tab-btn" onclick="show('step3')" role="tab">③ Pennylane</button>
-  <button class="tab-btn" onclick="show('step4')" role="tab">④ Filtres</button>
-  <button class="tab-btn" onclick="show('step5')" role="tab">⑤ Sync</button>
-  <button class="tab-btn" onclick="show('gate')" role="tab">🔒 Profile Gate</button>
+  <button class="tab-btn active" onclick="show('login')"  >🔐 Login</button>
+  <button class="tab-btn"        onclick="show('confirm')" >✉ Confirmation</button>
+  <button class="tab-btn"        onclick="show('step1')"   >① Profil</button>
+  <button class="tab-btn"        onclick="show('step2')"   >② Cabinet</button>
+  <button class="tab-btn"        onclick="show('step3')"   >③ Pennylane</button>
+  <button class="tab-btn"        onclick="show('step4')"   >④ Sync</button>
+  <button class="tab-btn"        onclick="show('gate')"    >🔒 Profile Gate</button>
 </nav>
 
 <!-- ═══════════════════════════════════════════════════════════
      SCREEN 1 — Login
 ═══════════════════════════════════════════════════════════════ -->
 <div id="screen-login" class="screen active">
-  <div class="browser-wrap">
-    <div class="browser-chrome">
-      <div class="browser-bar">
-        <div class="browser-dots">
-          <span class="dot-red"></span><span class="dot-yellow"></span><span class="dot-green"></span>
-        </div>
-        <div class="browser-url">cabinetpilot.fr/login</div>
-      </div>
-      <div class="login-layout">
-        <!-- Left panel -->
-        <div class="login-left">
-          <a class="logo" href="#">
-            <div class="logo-icon">⚖</div>
-            CabinetPilot
-          </a>
-          <div class="login-left-inner">
-            <div class="login-form-header">
-              <div class="login-title">Connexion</div>
-              <div class="login-subtitle">Pas de mot de passe — connexion sécurisée par lien e-mail</div>
-            </div>
-            <div class="login-form">
-              <div class="form-group">
-                <label class="form-label" for="email-login">Adresse e-mail</label>
-                <input class="form-input" id="email-login" type="email" placeholder="vous@cabinet.fr" value="marie.dupont@cabinet.fr" />
-              </div>
-              <button class="btn-primary">Recevoir mon lien de connexion</button>
-            </div>
-          </div>
-        </div>
-        <!-- Right panel -->
-        <div class="login-right">
-          <div class="login-right-content">
-            <div class="login-right-headline">Pilotez vos missions juridiques en un coup d'œil</div>
-            <div class="login-right-body">Suivez chaque dossier AGO, assignez vos équipes et synchronisez automatiquement depuis Pennylane.</div>
-          </div>
-        </div>
-      </div>
+  <div class="browser-wrap"><div class="browser-chrome">
+    <div class="browser-bar">
+      <div class="browser-dots"><span class="dot-r"></span><span class="dot-y"></span><span class="dot-g"></span></div>
+      <div class="browser-url">cabinetpilot.fr/login</div>
     </div>
-  </div>
+    <div class="login-layout">
+
+      <!-- Left -->
+      <div class="login-left">
+        <a class="logo" href="#">CabinetPilot</a>
+        <div class="login-left-inner">
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <div class="login-title">Connexion</div>
+            <div class="login-subtitle">Pas de mot de passe — connexion sécurisée par lien e-mail</div>
+          </div>
+          <div class="login-form">
+            <div class="form-group">
+              <label class="form-label" for="em">Adresse e-mail</label>
+              <input class="form-input" id="em" type="email" placeholder="vous@cabinet.fr" value="marie.dupont@cabinet.fr" />
+            </div>
+            <button class="btn-primary">Recevoir mon lien de connexion</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right -->
+      <div class="login-right">
+        <div class="login-right-content">
+          <div class="login-right-headline">Pilotez vos missions juridiques en un coup d'œil</div>
+          <div class="login-right-body">Suivez chaque dossier AGO, assignez vos équipes et synchronisez automatiquement depuis Pennylane.</div>
+        </div>
+      </div>
+
+    </div>
+  </div></div>
 </div>
 
 <!-- ═══════════════════════════════════════════════════════════
      SCREEN 2 — Magic Link Confirmation
 ═══════════════════════════════════════════════════════════════ -->
 <div id="screen-confirm" class="screen">
-  <div class="browser-wrap">
-    <div class="browser-chrome">
-      <div class="browser-bar">
-        <div class="browser-dots">
-          <span class="dot-red"></span><span class="dot-yellow"></span><span class="dot-green"></span>
-        </div>
-        <div class="browser-url">cabinetpilot.fr/login</div>
-      </div>
-      <div class="login-layout">
-        <!-- Left panel — confirmation state -->
-        <div class="login-left">
-          <a class="logo" href="#">
-            <div class="logo-icon">⚖</div>
-            CabinetPilot
-          </a>
-          <div class="login-left-inner">
-            <div class="confirmation-block">
-              <div class="mail-icon-wrap">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-                  <rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
-                </svg>
-              </div>
-              <div>
-                <div class="confirmation-heading">Vérifiez votre boîte mail</div>
-              </div>
-              <div class="confirmation-body">
-                Un lien de connexion a été envoyé à <strong>marie.dupont@cabinet.fr</strong>. Le lien expire dans 1 heure.
-              </div>
-              <div class="separator"></div>
-              <div class="confirmation-actions">
-                <a class="link-accent" href="#">Renvoyer le lien</a>
-                <a class="back-link" href="#">← Modifier l'adresse e-mail</a>
-              </div>
+  <div class="browser-wrap"><div class="browser-chrome">
+    <div class="browser-bar">
+      <div class="browser-dots"><span class="dot-r"></span><span class="dot-y"></span><span class="dot-g"></span></div>
+      <div class="browser-url">cabinetpilot.fr/login</div>
+    </div>
+    <div class="login-layout">
+
+      <!-- Left — confirmation state -->
+      <div class="login-left">
+        <a class="logo" href="#">CabinetPilot</a>
+        <div class="login-left-inner">
+          <div style="display:flex;flex-direction:column;gap:var(--sp-md)">
+            <div class="mail-icon-wrap">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="4" width="20" height="16" rx="2"/>
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+              </svg>
+            </div>
+            <div class="conf-heading">Vérifiez votre boîte mail</div>
+            <div class="conf-body">Un lien de connexion a été envoyé à <strong>marie.dupont@cabinet.fr</strong>. Le lien expire dans 1 heure.</div>
+            <div class="separator"></div>
+            <div style="display:flex;flex-direction:column;gap:var(--sp-sm)">
+              <a class="link-accent" href="#">Renvoyer le lien</a>
+              <a class="back-link" href="#">← Modifier l'adresse e-mail</a>
             </div>
           </div>
         </div>
-        <!-- Right panel (same) -->
-        <div class="login-right">
-          <div class="login-right-content">
-            <div class="login-right-headline">Pilotez vos missions juridiques en un coup d'œil</div>
-            <div class="login-right-body">Suivez chaque dossier AGO, assignez vos équipes et synchronisez automatiquement depuis Pennylane.</div>
-          </div>
+      </div>
+
+      <!-- Right (same) -->
+      <div class="login-right">
+        <div class="login-right-content">
+          <div class="login-right-headline">Pilotez vos missions juridiques en un coup d'œil</div>
+          <div class="login-right-body">Suivez chaque dossier AGO, assignez vos équipes et synchronisez automatiquement depuis Pennylane.</div>
         </div>
       </div>
+
     </div>
-  </div>
+  </div></div>
 </div>
 
 <!-- ═══════════════════════════════════════════════════════════
      SCREEN 3 — Onboarding Step 1: Profil
 ═══════════════════════════════════════════════════════════════ -->
 <div id="screen-step1" class="screen">
-  <div class="browser-wrap">
-    <div class="browser-chrome">
-      <div class="browser-bar">
-        <div class="browser-dots">
-          <span class="dot-red"></span><span class="dot-yellow"></span><span class="dot-green"></span>
-        </div>
-        <div class="browser-url">cabinetpilot.fr/onboarding</div>
-      </div>
-      <div class="onboarding-layout">
-        <div class="onboarding-inner">
-          <div class="onboarding-header">
-            <a class="logo" href="#"><div class="logo-icon">⚖</div>CabinetPilot</a>
-            <span class="badge badge-indigo">Étape 1 / 5</span>
-          </div>
-
-          <!-- Step indicator -->
-          <div class="step-indicator">
-            <div class="step-item">
-              <div class="step-circle active">1</div>
-              <div class="step-label active">Profil</div>
-            </div>
-            <div class="step-item">
-              <div class="step-circle upcoming">2</div>
-              <div class="step-label">Groupe</div>
-            </div>
-            <div class="step-item">
-              <div class="step-circle upcoming">3</div>
-              <div class="step-label">Pennylane</div>
-            </div>
-            <div class="step-item">
-              <div class="step-circle upcoming">4</div>
-              <div class="step-label">Filtres</div>
-            </div>
-            <div class="step-item">
-              <div class="step-circle upcoming">5</div>
-              <div class="step-label">Sync</div>
-            </div>
-          </div>
-
-          <!-- Wizard card -->
-          <div class="wizard-card">
-            <div class="wizard-heading">Votre profil</div>
-            <div class="wizard-fields">
-              <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
-                <div class="form-group">
-                  <label class="form-label">Prénom <span style="color:var(--color-red-500)">*</span></label>
-                  <input class="form-input" type="text" placeholder="Marie" />
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Nom <span style="color:var(--color-red-500)">*</span></label>
-                  <input class="form-input" type="text" placeholder="Dupont" />
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="form-label">Téléphone <span style="color:var(--color-zinc-400);font-weight:400">(optionnel)</span></label>
-                <input class="form-input" type="tel" placeholder="+33 6 00 00 00 00" />
-              </div>
-              <div class="form-group">
-                <label class="form-label">Photo de profil <span style="color:var(--color-zinc-400);font-weight:400">(optionnel)</span></label>
-                <div class="avatar-upload">
-                  <div class="avatar-circle">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                      <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
-                    </svg>
-                  </div>
-                  <div class="avatar-upload-text">
-                    <div class="form-label">Choisir une photo</div>
-                    <div class="helper-text">JPG, PNG ou GIF — max 2 Mo</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="wizard-actions">
-              <button class="btn-primary">Continuer</button>
-            </div>
-          </div>
-        </div>
-      </div>
+  <div class="browser-wrap"><div class="browser-chrome">
+    <div class="browser-bar">
+      <div class="browser-dots"><span class="dot-r"></span><span class="dot-y"></span><span class="dot-g"></span></div>
+      <div class="browser-url">cabinetpilot.fr/onboarding</div>
     </div>
-  </div>
-</div>
+    <div class="ob-layout">
+      <div class="ob-inner">
 
-<!-- ═══════════════════════════════════════════════════════════
-     SCREEN 4 — Onboarding Step 2: Groupe
-═══════════════════════════════════════════════════════════════ -->
-<div id="screen-step2" class="screen">
-  <div class="browser-wrap">
-    <div class="browser-chrome">
-      <div class="browser-bar">
-        <div class="browser-dots">
-          <span class="dot-red"></span><span class="dot-yellow"></span><span class="dot-green"></span>
+        <div class="ob-header">
+          <a class="logo" href="#">CabinetPilot</a>
+          <span class="badge">Étape 1 / 4</span>
         </div>
-        <div class="browser-url">cabinetpilot.fr/onboarding</div>
-      </div>
-      <div class="onboarding-layout">
-        <div class="onboarding-inner">
-          <div class="onboarding-header">
-            <a class="logo" href="#"><div class="logo-icon">⚖</div>CabinetPilot</a>
-            <span class="badge badge-indigo">Étape 2 / 5</span>
+
+        <!-- 4-step indicator -->
+        <div class="step-track">
+          <div class="step-item">
+            <div class="step-circle s-active">1</div>
+            <div class="step-label active">Profil</div>
           </div>
-          <div class="step-indicator">
-            <div class="step-item">
-              <div class="step-circle done">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-              </div>
-              <div class="step-label">Profil</div>
-            </div>
-            <div class="step-item">
-              <div class="step-circle active">2</div>
-              <div class="step-label active">Groupe</div>
-            </div>
-            <div class="step-item">
-              <div class="step-circle upcoming">3</div>
-              <div class="step-label">Pennylane</div>
-            </div>
-            <div class="step-item">
-              <div class="step-circle upcoming">4</div>
-              <div class="step-label">Filtres</div>
-            </div>
-            <div class="step-item">
-              <div class="step-circle upcoming">5</div>
-              <div class="step-label">Sync</div>
-            </div>
+          <div class="step-item">
+            <div class="step-circle s-upcoming">2</div>
+            <div class="step-label">Cabinet</div>
           </div>
-          <div class="wizard-card">
-            <div class="wizard-heading">Votre cabinet</div>
-            <div class="wizard-fields">
+          <div class="step-item">
+            <div class="step-circle s-upcoming">3</div>
+            <div class="step-label">Pennylane</div>
+          </div>
+          <div class="step-item">
+            <div class="step-circle s-upcoming">4</div>
+            <div class="step-label">Sync</div>
+          </div>
+        </div>
+
+        <div class="wizard-card">
+          <div class="wizard-heading">Votre profil</div>
+          <div class="wizard-fields">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-md)">
               <div class="form-group">
-                <label class="form-label">Nom du groupe <span style="color:var(--color-red-500)">*</span></label>
-                <input class="form-input" type="text" placeholder="Cabinet Dupont &amp; Associés" />
-                <div class="helper-text">Ce nom sera visible par tous les membres de votre organisation</div>
-              </div>
-            </div>
-            <div class="wizard-actions">
-              <button class="btn-primary">Continuer</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════════════════════════════
-     SCREEN 5 — Onboarding Step 3: Pennylane
-═══════════════════════════════════════════════════════════════ -->
-<div id="screen-step3" class="screen">
-  <div class="browser-wrap">
-    <div class="browser-chrome">
-      <div class="browser-bar">
-        <div class="browser-dots">
-          <span class="dot-red"></span><span class="dot-yellow"></span><span class="dot-green"></span>
-        </div>
-        <div class="browser-url">cabinetpilot.fr/onboarding</div>
-      </div>
-      <div class="onboarding-layout">
-        <div class="onboarding-inner">
-          <div class="onboarding-header">
-            <a class="logo" href="#"><div class="logo-icon">⚖</div>CabinetPilot</a>
-            <span class="badge badge-indigo">Étape 3 / 5</span>
-          </div>
-          <div class="step-indicator">
-            <div class="step-item">
-              <div class="step-circle done"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-              <div class="step-label">Profil</div>
-            </div>
-            <div class="step-item">
-              <div class="step-circle done"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-              <div class="step-label">Groupe</div>
-            </div>
-            <div class="step-item">
-              <div class="step-circle active">3</div>
-              <div class="step-label active">Pennylane</div>
-            </div>
-            <div class="step-item">
-              <div class="step-circle upcoming">4</div>
-              <div class="step-label">Filtres</div>
-            </div>
-            <div class="step-item">
-              <div class="step-circle upcoming">5</div>
-              <div class="step-label">Sync</div>
-            </div>
-          </div>
-          <div class="wizard-card">
-            <div class="wizard-heading">Connexion Pennylane</div>
-            <div class="wizard-fields">
-              <div style="display:grid;grid-template-columns:1fr auto;gap:16px;align-items:end">
-                <div class="form-group">
-                  <label class="form-label">Hôte Redshift</label>
-                  <input class="form-input" type="text" placeholder="cluster.redshift.amazonaws.com" />
-                </div>
-                <div class="form-group" style="width:90px">
-                  <label class="form-label">Port</label>
-                  <input class="form-input" type="number" value="5439" />
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="form-label">Nom de la base</label>
-                <input class="form-input" type="text" placeholder="pennylane_db" />
-              </div>
-              <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
-                <div class="form-group">
-                  <label class="form-label">Utilisateur</label>
-                  <input class="form-input" type="text" placeholder="readonly_user" />
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Mot de passe</label>
-                  <input class="form-input" type="password" placeholder="••••••••" />
-                </div>
-              </div>
-              <!-- Test connection — success state shown -->
-              <div>
-                <button class="btn-outline" style="margin-bottom:8px">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-                  Tester la connexion
-                </button>
-                <div class="test-result success">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-                  Connexion réussie
-                </div>
-              </div>
-            </div>
-            <div class="wizard-actions">
-              <button class="btn-primary">Continuer</button>
-              <a class="link-skip" href="#">Configurer plus tard</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════════════════════════════
-     SCREEN 6 — Onboarding Step 4: Filtres
-═══════════════════════════════════════════════════════════════ -->
-<div id="screen-step4" class="screen">
-  <div class="browser-wrap">
-    <div class="browser-chrome">
-      <div class="browser-bar">
-        <div class="browser-dots">
-          <span class="dot-red"></span><span class="dot-yellow"></span><span class="dot-green"></span>
-        </div>
-        <div class="browser-url">cabinetpilot.fr/onboarding</div>
-      </div>
-      <div class="onboarding-layout">
-        <div class="onboarding-inner">
-          <div class="onboarding-header">
-            <a class="logo" href="#"><div class="logo-icon">⚖</div>CabinetPilot</a>
-            <span class="badge badge-indigo">Étape 4 / 5</span>
-          </div>
-          <div class="step-indicator">
-            <div class="step-item"><div class="step-circle done"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div class="step-label">Profil</div></div>
-            <div class="step-item"><div class="step-circle done"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div class="step-label">Groupe</div></div>
-            <div class="step-item"><div class="step-circle done"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div class="step-label">Pennylane</div></div>
-            <div class="step-item"><div class="step-circle active">4</div><div class="step-label active">Filtres</div></div>
-            <div class="step-item"><div class="step-circle upcoming">5</div><div class="step-label">Sync</div></div>
-          </div>
-          <div class="wizard-card">
-            <div class="wizard-heading">Filtres de synchronisation</div>
-            <div class="wizard-fields">
-              <div style="display:flex;flex-direction:column;gap:12px">
-                <label class="checkbox-row">
-                  <div class="checkbox-box checked">
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                  </div>
-                  <span class="checkbox-label">Exclure LMNP</span>
-                </label>
-                <label class="checkbox-row">
-                  <div class="checkbox-box"></div>
-                  <span class="checkbox-label">Exclure BNC</span>
-                </label>
-                <label class="checkbox-row">
-                  <div class="checkbox-box checked">
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                  </div>
-                  <span class="checkbox-label">Exclure EI (codes 1000/1)</span>
-                </label>
-                <label class="checkbox-row">
-                  <div class="checkbox-box"></div>
-                  <span class="checkbox-label">Exclure dossiers "situation"</span>
-                </label>
-              </div>
-              <div class="separator"></div>
-              <div class="form-group">
-                <label class="form-label">Codes juridiques exclus</label>
-                <input class="form-input" type="text" placeholder="ex: 5499, 5710" value="5499, 5710" />
-                <div class="helper-text">Codes séparés par des virgules</div>
-              </div>
-              <div class="form-group">
-                <label class="form-label">Date de début d'exercice minimum</label>
-                <input class="form-input" type="date" value="2024-01-01" />
-              </div>
-            </div>
-            <div class="wizard-actions">
-              <button class="btn-primary">Continuer</button>
-              <a class="link-skip" href="#">Passer cette étape</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════════════════════════════
-     SCREEN 7 — Onboarding Step 5: Sync
-═══════════════════════════════════════════════════════════════ -->
-<div id="screen-step5" class="screen">
-  <div class="browser-wrap">
-    <div class="browser-chrome">
-      <div class="browser-bar">
-        <div class="browser-dots">
-          <span class="dot-red"></span><span class="dot-yellow"></span><span class="dot-green"></span>
-        </div>
-        <div class="browser-url">cabinetpilot.fr/onboarding</div>
-      </div>
-      <div class="onboarding-layout">
-        <div class="onboarding-inner">
-          <div class="onboarding-header">
-            <a class="logo" href="#"><div class="logo-icon">⚖</div>CabinetPilot</a>
-            <span class="badge badge-indigo">Étape 5 / 5</span>
-          </div>
-          <div class="step-indicator">
-            <div class="step-item"><div class="step-circle done"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div class="step-label">Profil</div></div>
-            <div class="step-item"><div class="step-circle done"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div class="step-label">Groupe</div></div>
-            <div class="step-item"><div class="step-circle done"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div class="step-label">Pennylane</div></div>
-            <div class="step-item"><div class="step-circle done"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div class="step-label">Filtres</div></div>
-            <div class="step-item"><div class="step-circle active">5</div><div class="step-label active">Sync</div></div>
-          </div>
-          <div class="wizard-card">
-            <div class="wizard-heading">Première synchronisation</div>
-            <div class="sync-description">Importez vos dossiers Pennylane pour démarrer.</div>
-            <!-- Success state shown -->
-            <div class="sync-success-card">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-              <span>Synchronisation terminée — <strong>247 dossiers créés</strong>, 0 mis à jour.</span>
-            </div>
-            <div class="wizard-actions">
-              <button class="btn-primary">Accéder au dashboard</button>
-              <a class="link-skip" href="#">Passer et aller au dashboard</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════════════════════════════
-     SCREEN 8 — Profile Gate
-═══════════════════════════════════════════════════════════════ -->
-<div id="screen-gate" class="screen">
-  <div class="browser-wrap">
-    <div class="browser-chrome">
-      <div class="browser-bar">
-        <div class="browser-dots">
-          <span class="dot-red"></span><span class="dot-yellow"></span><span class="dot-green"></span>
-        </div>
-        <div class="browser-url">cabinetpilot.fr/onboarding</div>
-      </div>
-      <div class="profile-gate-layout">
-        <!-- Blurred dashboard hint behind -->
-        <div style="position:absolute;inset:40px;background:var(--color-zinc-100);border-radius:var(--radius-lg);filter:blur(4px);opacity:.4;pointer-events:none"></div>
-
-        <div class="profile-gate-card" style="position:relative;z-index:1">
-          <div class="gate-icon">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
-            </svg>
-          </div>
-          <div>
-            <div class="gate-heading">Complétez votre profil</div>
-          </div>
-          <div class="gate-body">Renseignez vos informations avant d'accéder au dashboard.</div>
-          <div class="gate-fields">
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
-              <div class="form-group">
-                <label class="form-label">Prénom <span style="color:var(--color-red-500)">*</span></label>
+                <label class="form-label">Prénom <span class="req">*</span></label>
                 <input class="form-input" type="text" placeholder="Marie" />
               </div>
               <div class="form-group">
-                <label class="form-label">Nom <span style="color:var(--color-red-500)">*</span></label>
+                <label class="form-label">Nom <span class="req">*</span></label>
                 <input class="form-input" type="text" placeholder="Dupont" />
               </div>
             </div>
             <div class="form-group">
-              <label class="form-label">Photo de profil <span style="color:var(--color-zinc-400);font-weight:400">(optionnel)</span></label>
-              <div class="avatar-upload">
+              <label class="form-label">Téléphone <span class="opt">(optionnel)</span></label>
+              <input class="form-input" type="tel" placeholder="+33 6 00 00 00 00" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Photo de profil <span class="opt">(optionnel)</span></label>
+              <div class="avatar-wrap">
                 <div class="avatar-circle">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
                   </svg>
                 </div>
-                <div class="avatar-upload-text">
+                <div style="display:flex;flex-direction:column;gap:4px">
                   <div class="form-label">Choisir une photo</div>
                   <div class="helper-text">JPG, PNG ou GIF — max 2 Mo</div>
                 </div>
               </div>
             </div>
           </div>
-          <button class="btn-primary" style="width:100%">Enregistrer et accéder au dashboard</button>
+          <div class="wizard-actions">
+            <button class="btn-primary">Continuer</button>
+          </div>
         </div>
+
       </div>
     </div>
-  </div>
+  </div></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SCREEN 4 — Onboarding Step 2: Cabinet
+═══════════════════════════════════════════════════════════════ -->
+<div id="screen-step2" class="screen">
+  <div class="browser-wrap"><div class="browser-chrome">
+    <div class="browser-bar">
+      <div class="browser-dots"><span class="dot-r"></span><span class="dot-y"></span><span class="dot-g"></span></div>
+      <div class="browser-url">cabinetpilot.fr/onboarding</div>
+    </div>
+    <div class="ob-layout">
+      <div class="ob-inner">
+
+        <div class="ob-header">
+          <a class="logo" href="#">CabinetPilot</a>
+          <span class="badge">Étape 2 / 4</span>
+        </div>
+
+        <div class="step-track">
+          <div class="step-item">
+            <div class="step-circle s-done">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <div class="step-label">Profil</div>
+          </div>
+          <div class="step-item">
+            <div class="step-circle s-active">2</div>
+            <div class="step-label active">Cabinet</div>
+          </div>
+          <div class="step-item">
+            <div class="step-circle s-upcoming">3</div>
+            <div class="step-label">Pennylane</div>
+          </div>
+          <div class="step-item">
+            <div class="step-circle s-upcoming">4</div>
+            <div class="step-label">Sync</div>
+          </div>
+        </div>
+
+        <div class="wizard-card">
+          <div class="wizard-heading">Votre cabinet</div>
+          <div class="wizard-fields">
+            <div class="form-group">
+              <label class="form-label">Nom du groupe <span class="req">*</span></label>
+              <input class="form-input" type="text" placeholder="Cabinet Dupont &amp; Associés" />
+              <div class="helper-text">Ce nom sera visible par tous les membres de votre organisation</div>
+            </div>
+          </div>
+          <div class="wizard-actions">
+            <button class="btn-primary">Continuer</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SCREEN 5 — Onboarding Step 3: Pennylane
+═══════════════════════════════════════════════════════════════ -->
+<div id="screen-step3" class="screen">
+  <div class="browser-wrap"><div class="browser-chrome">
+    <div class="browser-bar">
+      <div class="browser-dots"><span class="dot-r"></span><span class="dot-y"></span><span class="dot-g"></span></div>
+      <div class="browser-url">cabinetpilot.fr/onboarding</div>
+    </div>
+    <div class="ob-layout">
+      <div class="ob-inner">
+
+        <div class="ob-header">
+          <a class="logo" href="#">CabinetPilot</a>
+          <span class="badge">Étape 3 / 4</span>
+        </div>
+
+        <div class="step-track">
+          <div class="step-item"><div class="step-circle s-done"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div class="step-label">Profil</div></div>
+          <div class="step-item"><div class="step-circle s-done"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div class="step-label">Cabinet</div></div>
+          <div class="step-item"><div class="step-circle s-active">3</div><div class="step-label active">Pennylane</div></div>
+          <div class="step-item"><div class="step-circle s-upcoming">4</div><div class="step-label">Sync</div></div>
+        </div>
+
+        <div class="wizard-card">
+          <div class="wizard-heading">Connexion Pennylane</div>
+          <div class="wizard-fields">
+            <div style="display:grid;grid-template-columns:1fr 100px;gap:var(--sp-md);align-items:end">
+              <div class="form-group">
+                <label class="form-label">Hôte Redshift</label>
+                <input class="form-input" type="text" placeholder="cluster.redshift.amazonaws.com" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Port</label>
+                <input class="form-input" type="number" value="5439" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Nom de la base</label>
+              <input class="form-input" type="text" placeholder="pennylane_db" />
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-md)">
+              <div class="form-group">
+                <label class="form-label">Utilisateur</label>
+                <input class="form-input" type="text" placeholder="readonly_user" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Mot de passe</label>
+                <input class="form-input" type="password" placeholder="••••••••" />
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:var(--sp-sm)">
+              <button class="btn-outline">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                Tester la connexion
+              </button>
+              <div class="test-result tr-success">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                Connexion réussie
+              </div>
+            </div>
+          </div>
+          <div class="wizard-actions">
+            <button class="btn-primary">Continuer</button>
+            <a class="link-skip" href="#">Configurer plus tard</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SCREEN 6 — Onboarding Step 4: Sync
+═══════════════════════════════════════════════════════════════ -->
+<div id="screen-step4" class="screen">
+  <div class="browser-wrap"><div class="browser-chrome">
+    <div class="browser-bar">
+      <div class="browser-dots"><span class="dot-r"></span><span class="dot-y"></span><span class="dot-g"></span></div>
+      <div class="browser-url">cabinetpilot.fr/onboarding</div>
+    </div>
+    <div class="ob-layout">
+      <div class="ob-inner">
+
+        <div class="ob-header">
+          <a class="logo" href="#">CabinetPilot</a>
+          <span class="badge">Étape 4 / 4</span>
+        </div>
+
+        <div class="step-track">
+          <div class="step-item"><div class="step-circle s-done"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div class="step-label">Profil</div></div>
+          <div class="step-item"><div class="step-circle s-done"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div class="step-label">Cabinet</div></div>
+          <div class="step-item"><div class="step-circle s-done"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div class="step-label">Pennylane</div></div>
+          <div class="step-item"><div class="step-circle s-active">4</div><div class="step-label active">Sync</div></div>
+        </div>
+
+        <div class="wizard-card">
+          <div class="wizard-heading">Première synchronisation</div>
+          <div class="sync-desc">Importez vos dossiers Pennylane pour démarrer.</div>
+          <!-- Success state -->
+          <div class="sync-success-card">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            <span>Synchronisation terminée — <strong>247 dossiers créés</strong>, 0 mis à jour.</span>
+          </div>
+          <div class="wizard-actions">
+            <button class="btn-primary">Accéder au dashboard</button>
+            <a class="link-skip" href="#">Passer et aller au dashboard</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SCREEN 7 — Profile Gate
+═══════════════════════════════════════════════════════════════ -->
+<div id="screen-gate" class="screen">
+  <div class="browser-wrap"><div class="browser-chrome">
+    <div class="browser-bar">
+      <div class="browser-dots"><span class="dot-r"></span><span class="dot-y"></span><span class="dot-g"></span></div>
+      <div class="browser-url">cabinetpilot.fr/onboarding</div>
+    </div>
+    <div class="gate-layout">
+      <div class="gate-blur"></div>
+      <div class="gate-card">
+        <div class="gate-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+          </svg>
+        </div>
+        <div class="gate-heading">Complétez votre profil</div>
+        <div class="gate-body">Renseignez vos informations avant d'accéder au dashboard.</div>
+        <div class="gate-fields">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-md)">
+            <div class="form-group">
+              <label class="form-label">Prénom <span class="req">*</span></label>
+              <input class="form-input" type="text" placeholder="Marie" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Nom <span class="req">*</span></label>
+              <input class="form-input" type="text" placeholder="Dupont" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Photo de profil <span class="opt">(optionnel)</span></label>
+            <div class="avatar-wrap">
+              <div class="avatar-circle">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+                </svg>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:4px">
+                <div class="form-label">Choisir une photo</div>
+                <div class="helper-text">JPG, PNG ou GIF — max 2 Mo</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button class="btn-primary" style="width:100%">Enregistrer et accéder au dashboard</button>
+      </div>
+    </div>
+  </div></div>
 </div>
 
 <script>

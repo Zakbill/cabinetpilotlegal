@@ -33,21 +33,20 @@ created: 2026-03-16
 
 ## Spacing Scale
 
-Declared values (multiples of 4 only):
-
 | Token | Value | Usage |
 |-------|-------|-------|
-| xs | 4px | Icon gaps, inline padding between icon and label |
-| sm | 8px | Compact internal element spacing (input padding, tight stacks) |
-| md | 16px | Default element spacing (form field gaps, card padding) |
-| lg | 24px | Section padding (onboarding step container) |
-| xl | 32px | Layout gaps (space between wizard header and content) |
-| 2xl | 48px | Major section breaks (space between form groups in onboarding) |
-| 3xl | 64px | Page-level spacing (login page vertical centering offset) |
+| xs | 6px | Icon gaps, inline padding between icon and label |
+| sm | 12px | Compact internal element spacing (input padding, tight stacks) |
+| md | 20px | Default element spacing (form field gaps, card padding) |
+| lg | 32px | Section padding (onboarding step container) |
+| xl | 40px | Layout gaps (space between wizard header and content) |
+| 2xl | 64px | Major section breaks (space between form groups in onboarding) |
+| 3xl | 80px | Page-level spacing (login page vertical centering offset) |
 
 Exceptions:
 - Touch targets for buttons: minimum 48px height (exceeds WCAG 2.5.5 44px minimum)
-- Step indicator circles: 32px × 32px (8px × 4 scale)
+- Step indicator circles: 32px × 32px
+- Wizard card padding: 40px
 
 ---
 
@@ -59,10 +58,10 @@ All text in French. No English strings in any UI-facing copy.
 |------|------|------|--------|-------------|
 | Body | DM Sans | 16px | 400 (regular) | 1.5 |
 | Label / UI small | DM Sans | 14px | 400 (regular) | 1.4 |
-| Heading (step title, section title) | DM Sans | 20px | 600 (semibold) | 1.2 |
-| Display (login value prop, hero text) | Cal Sans | 28px | 600 (semibold) | 1.1 |
+| Heading (step title, section title) | DM Sans | 22px | 600 (semibold) | 1.2 |
+| Display (login value prop, hero text) | Cal Sans | 32px | 600 (semibold) | 1.1 |
 
-Weights declared: **400** (regular) and **600** (semibold). Size (28px) and the distinctive character of Cal Sans provide sufficient visual contrast for the display role without requiring a separate bold weight.
+Weights declared: **400** (regular) and **600** (semibold). Size (32px) and the distinctive character of Cal Sans provide sufficient visual contrast for the display role without requiring a separate bold weight.
 
 ---
 
@@ -97,7 +96,7 @@ The following screens/flows are covered by this spec. No dashboard screens are i
 | Login page | `/login` | Split-screen, magic link form |
 | Magic link confirmation | `/login` (same page, state change) | In-page transition after form submit |
 | Auth callback | `/auth/callback` | No UI — redirect only |
-| Onboarding wizard | `/onboarding` | 5-step animated wizard, expert-comptable path |
+| Onboarding wizard | `/onboarding` | **4-step** animated wizard, expert-comptable path |
 | Onboarding wizard (invité) | `/onboarding` | Same route, step 1 only (profil) for invited users |
 
 ---
@@ -112,7 +111,7 @@ The following screens/flows are covered by this spec. No dashboard screens are i
 - Background: `white`
 - Vertical centering via flexbox
 - Content max-width: 360px, centered in the panel
-- Logo: CabinetPilot wordmark, top-left anchor, 24px height
+- Logo: "CabinetPilot" wordmark only — Cal Sans 18px, `zinc-900`, no icon, no colored square
 - Form title: "Connexion" — 20px DM Sans semibold, `zinc-900`
 - Subtitle: "Pas de mot de passe — connexion sécurisée par lien e-mail" — 14px DM Sans regular, `zinc-500`
 - Email input: shadcn `<Input>` with label "Adresse e-mail", placeholder "vous@cabinet.fr"
@@ -120,10 +119,10 @@ The following screens/flows are covered by this spec. No dashboard screens are i
 - Input validation: inline error below the field — red-600 text, 14px — "Adresse e-mail invalide" or "Trop de tentatives, réessayez dans quelques minutes"
 
 **Right panel:**
-- Background: gradient `from-indigo-500/20 to-indigo-700/40`
+- Background: gradient `linear-gradient(135deg, #4338ca 0%, #6d28d9 100%)`
 - Centered text block (max-width 320px):
-  - Headline: 28px Cal Sans, `indigo-900` (or white if contrast sufficient)
-  - 2–3 lines value proposition copy (see Copywriting section)
+  - Headline: 32px Cal Sans, `white`
+  - 2–3 lines value proposition copy (see Copywriting section), `white` at 80% opacity
 - Decorative only — no interactive elements
 
 **After magic link sent (in-page state change — no navigation):**
@@ -141,7 +140,7 @@ The following screens/flows are covered by this spec. No dashboard screens are i
 **Layout:** Single centered column. Max-width 520px container, vertically centered in viewport. Background: `zinc-50`.
 
 **Step indicator (top of page, above wizard card):**
-- 5 numbered circles, horizontally spaced
+- **4 numbered circles**, horizontally spaced
 - Active step: 32px circle, `indigo-600` fill, white number, DM Sans semibold 14px
 - Completed step: 32px circle, `indigo-100` fill, `indigo-600` checkmark icon (Lucide `Check`, 16px)
 - Upcoming step: 32px circle, `zinc-200` fill, `zinc-400` number
@@ -150,10 +149,9 @@ The following screens/flows are covered by this spec. No dashboard screens are i
 
 Step labels:
 1. Profil
-2. Groupe
+2. Cabinet
 3. Pennylane
-4. Filtres
-5. Sync
+4. Sync
 
 **Wizard card:**
 - Background: `white`
@@ -175,7 +173,7 @@ Step labels:
 - CTA: "Continuer" — `indigo-600`, full-width button
 - No skip option on this step
 
-**Step 2 — Groupe (obligatoire)**
+**Step 2 — Cabinet (obligatoire)**
 - Section heading: "Votre cabinet"
 - Fields: Nom du groupe (required) — e.g. "Cabinet Dupont & Associés"
 - Helper text below input: "Ce nom sera visible par tous les membres de votre organisation"
@@ -192,15 +190,7 @@ Step labels:
 - CTA: "Continuer"
 - Skip link: "Configurer plus tard" — 14px `zinc-400`, text link, no underline, positioned below CTA
 
-**Step 4 — Filtres (passable)**
-- Section heading: "Filtres de synchronisation"
-- Checkboxes (shadcn `<Checkbox>`): Exclure LMNP, Exclure BNC, Exclure EI (codes 1000/1), Exclure dossiers "situation"
-- Text input: "Codes juridiques exclus" — comma-separated, placeholder "ex: 5499, 5710"
-- Date input: "Date de début d'exercice minimum" — shadcn `<Input>` type date
-- CTA: "Continuer"
-- Skip link: "Passer cette étape" — same styling as Step 3 skip
-
-**Step 5 — Première sync (passable)**
+**Step 4 — Première sync (passable)**
 - Section heading: "Première synchronisation"
 - Description: 16px DM Sans regular — "Importez vos dossiers Pennylane pour démarrer." — `zinc-600`
 - Primary CTA: "Synchroniser maintenant" — `indigo-600`, full-width
@@ -246,10 +236,9 @@ All copy is in French. No English strings in UI-facing copy.
 | Onboarding — step 1 heading | "Votre profil" |
 | Onboarding — step 2 heading | "Votre cabinet" |
 | Onboarding — step 3 heading | "Connexion Pennylane" |
-| Onboarding — step 4 heading | "Filtres de synchronisation" |
-| Onboarding — step 5 heading | "Première synchronisation" |
-| Onboarding — skip (steps 3/4) | "Configurer plus tard" |
-| Onboarding — skip (step 5) | "Passer et aller au dashboard" |
+| Onboarding — step 4 heading | "Première synchronisation" |
+| Onboarding — skip (step 3) | "Configurer plus tard" |
+| Onboarding — skip (step 4) | "Passer et aller au dashboard" |
 | Onboarding — test connection success | "Connexion réussie" |
 | Onboarding — test connection error | "Connexion impossible : {error_message}. Vérifiez vos identifiants." |
 | Sync — loading | "Synchronisation en cours..." |
@@ -299,4 +288,4 @@ No third-party registries are used in Phase 2.
 - [ ] Dimension 5 Spacing: PASS
 - [ ] Dimension 6 Registry Safety: PASS
 
-**Approval:** pending
+**Approval:** v2 amendment applied 2026-03-16 — step 4 (Filtres) removed, 4-step wizard, typography updated (heading 22px, display 32px), spacing scale revised, logo text-only, right panel gradient updated

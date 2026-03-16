@@ -70,8 +70,8 @@ export const fonts = {
   size: {
     sm:   '14px',  // tw: text-sm   — labels, helper text, skip links, step labels
     base: '16px',  // tw: text-base — body text, form values
-    lg:   '20px',  // tw: text-lg   — step headings, section titles
-    xl:   '28px',  // tw: text-2xl  — display / hero (Cal Sans only)
+    lg:   '22px',  // tw: text-[22px] — step headings, section titles
+    xl:   '32px',  // tw: text-[32px] — display / hero (Cal Sans only)
   },
   weight: {
     regular:  400,  // tw: font-normal
@@ -86,19 +86,19 @@ export const fonts = {
 } as const
 
 // ─── Spacing ─────────────────────────────────────────────────────────────────
-// 8-point scale. All values are multiples of 4.
 // Exceptions:
 //   - Button height: 48px (exceeds WCAG 2.5.5 44px minimum)
-//   - Step circles: 32px × 32px (in scale)
+//   - Step circles: 32px × 32px
+//   - Wizard card padding: 40px
 
 export const spacing = {
-  xs:  '4px',   // tw: p-1   — icon gaps, inline padding
-  sm:  '8px',   // tw: p-2   — compact spacing, input padding
-  md:  '16px',  // tw: p-4   — default element spacing, form gaps
-  lg:  '24px',  // tw: p-6   — section padding
-  xl:  '32px',  // tw: p-8   — wizard card padding, layout gaps
-  '2xl': '48px', // tw: p-12  — major section breaks
-  '3xl': '64px', // tw: p-16  — page-level vertical centering
+  xs:  '6px',   // tw: p-1.5 — icon gaps, inline padding
+  sm:  '12px',  // tw: p-3   — compact spacing, input padding
+  md:  '20px',  // tw: p-5   — default element spacing, form gaps
+  lg:  '32px',  // tw: p-8   — section padding
+  xl:  '40px',  // tw: p-10  — layout gaps
+  '2xl': '64px', // tw: p-16  — major section breaks
+  '3xl': '80px', // tw: p-20  — page-level vertical centering
 } as const
 
 export const sizes = {
@@ -138,8 +138,8 @@ export const breakpoints = {
 // Login right panel only — decorative, no semantic meaning.
 
 export const gradients = {
-  loginPanel: 'linear-gradient(135deg, rgba(99,102,241,0.2) 0%, rgba(67,56,202,0.4) 100%)',
-  // Tailwind equivalent: from-indigo-500/20 to-indigo-700/40
+  loginPanel: 'linear-gradient(135deg, #4338ca 0%, #6d28d9 100%)',
+  // indigo-700 → violet-700 — rich deep blue-purple, white text on top
 } as const
 
 // ─── Interaction States ───────────────────────────────────────────────────────
