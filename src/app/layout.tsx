@@ -1,11 +1,10 @@
 import type { Metadata } from 'next'
-import { DM_Sans } from 'next/font/google'
+import { Geist } from 'next/font/google'
 import './globals.css'
 
-const dmSans = DM_Sans({
+const geistSans = Geist({
   subsets: ['latin'],
-  weight: ['400', '600'],
-  variable: '--font-dm-sans',
+  variable: '--font-geist-sans',
   display: 'swap',
 })
 
@@ -20,15 +19,12 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="fr" suppressHydrationWarning>
-      <head>
-        {/* Cal Sans — non disponible sur Google Fonts, chargé depuis CDN */}
-        <link
-          rel="stylesheet"
-          href="https://fonts.cdnfonts.com/css/cal-sans"
-        />
-      </head>
-      <body className={`${dmSans.variable} font-sans antialiased`}>
+    <html
+      lang="fr"
+      className={geistSans.variable}
+      suppressHydrationWarning
+    >
+      <body className="antialiased">
         {children}
       </body>
     </html>
