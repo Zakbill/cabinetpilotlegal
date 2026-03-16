@@ -50,9 +50,12 @@ created: 2026-03-16
 
 ## Wave 0 Requirements
 
-- [ ] `supabase/tests/01_rls_isolation.sql` — stubs for FOUND-01, FOUND-02
-- [ ] `supabase/tests/02_schema_types.sql` — stubs for FOUND-03
-- [ ] `supabase/tests/03_statuses.sql` — stubs for FOUND-04, FOUND-05
+- [ ] `supabase/tests/00_setup.sql` — extension pgTAP + fixtures communes
+- [ ] `supabase/tests/01_schema.test.sql` — stubs FOUND-01 (colonnes nullables, col_is_fk)
+- [ ] `supabase/tests/02_rls_isolation.test.sql` — stubs FOUND-02 (isolation org_A vs org_B)
+- [ ] `supabase/tests/03_rls_collaborateur.test.sql` — stubs FOUND-02/FOUND-03 (restriction collaborateur)
+- [ ] `supabase/tests/04_status_seed.test.sql` — stubs FOUND-04 (trigger 13 statuts, subquery pattern)
+- [ ] `supabase/tests/05_status_restrict.test.sql` — stubs FOUND-05 (ON DELETE RESTRICT, throws_ok 23503)
 
 *Wave 0 installs pgTAP extension if not already present.*
 
