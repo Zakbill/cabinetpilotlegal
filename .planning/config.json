@@ -15,6 +15,7 @@
       "before_ui_component": true,
       "before_architecture_decision": true,
       "before_scope_expansion": true
-    }
+    },
+    "_auto_chain_active": false
   }
 }

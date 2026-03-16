@@ -229,7 +229,7 @@ for select
 to authenticated
 using (
   (select private.get_my_role()) = 'collaborateur'
-  and cabinet_id = any(select private.get_my_cabinet_ids())
+  and cabinet_id = any(private.get_my_cabinet_ids())
 );
 
 create policy "dossiers_insert"

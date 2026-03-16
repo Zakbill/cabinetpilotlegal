@@ -24,6 +24,7 @@ The stack is a well-integrated, constraint-driven set of technologies. PROJECT.m
 Pin React at 18.3.x (not 19) and Tailwind at 3.4.x (not v4): both have documented ecosystem compatibility issues with framer-motion and shadcn/ui respectively as of mid-2025. All Supabase Edge Functions run on Deno — use `npm:pkg` import notation for Node-compatible packages; Node.js `require()` does not work.
 
 **Core technologies:**
+
 - **React 18.3 + Vite 5 + TypeScript 5.5** — SPA build stack; stable, fast dev server, strict type safety catches RLS shape mismatches early
 - **shadcn/ui + Tailwind 3.4 + Radix UI** — component system; copy-paste owned components, Radix headless primitives for custom variants
 - **framer-motion 11** — all animations (sidebar collapse via `layout` prop, side panel slide-in via `AnimatePresence`, status badge transitions)
@@ -43,6 +44,7 @@ See `.planning/research/STACK.md` for installation commands, integration code pa
 The product serves a single workflow — AGO deadline management — for a legally regulated profession. Missing any table-stakes feature causes cabinets to stay on Airtable. Missing the differentiators means the product is just another generic task tracker.
 
 **Must have (table stakes):**
+
 - Dossier list with status column, filtering (cabinet / statut / échéance), and sorting — primary daily-use surface for 920+ dossiers
 - Status change per dossier (from side panel; no page reload) — the entire workflow is status progression
 - Deadline visibility with urgency color-coding (overdue / <30 days / ok) — statutory deadlines, legally significant
@@ -57,6 +59,7 @@ The product serves a single workflow — AGO deadline management — for a legal
 - Subscription and billing management (Stripe; plan-based dossier limits) — required to monetize
 
 **Should have (differentiators):**
+
 - Automatic weekly Pennylane sync via pg_cron (Pro+ plan) — eliminates manual sync entirely; cabinet never has stale data
 - Smart deadline alerts (in-app urgency indicators, email digest) — AGO deadlines are statutory; proactive alerting prevents liability
 - Configurable exclusion filters per org (codes juridiques, régimes fiscaux, seuil exercice) — different cabinets exclude different dossier types
@@ -66,6 +69,7 @@ The product serves a single workflow — AGO deadline management — for a legal
 - Pricing per dossiers actifs (not per seat) — matches how cabinets think about workload
 
 **Defer (v2+):**
+
 - Other mission types (création de société, dissolution, etc.) — schema is extensible but AGO must be complete first
 - Email notifications for deadline alerts — in-app indicators first; Resend template complexity not worth it for v1
 - Client portal (client-facing access) — requires separate auth flows; flag as v3
@@ -80,6 +84,7 @@ See `.planning/research/FEATURES.md` for full anti-features list and feature dep
 The architecture has a clear separation: the React SPA handles all UI and calls Supabase directly via RLS-scoped PostgREST; Edge Functions (Deno, service role) handle all cross-system operations — Redshift sync, Stripe webhooks, email invitations, and plan limit checks. The Supabase database is the integration hub. JWT custom claims (`org_id`, `role` embedded in `app_metadata`) eliminate DB lookups on every RLS check. Supabase Vault stores per-org Redshift credentials encrypted at rest; Edge Functions retrieve them at invocation time and never expose them to the client.
 
 **Major components:**
+
 1. **React SPA** — UI rendering, routing (react-router-dom), client state (Zustand), server state (TanStack Query + Supabase JS), Realtime subscriptions for live dossier/log updates
 2. **Supabase Database (PostgreSQL + RLS)** — tenant isolation via `auth.org_id()` and `auth.org_role()` helper functions; 10 tables: `organisations`, `cabinets`, `org_members`, `cabinet_assignments`, `dossiers`, `statuts_config`, `activity_logs`, `sync_logs`, `subscriptions`, `vault.secrets`
 3. **Edge Functions (Deno)** — `sync-pennylane` (Redshift fetch + upsert), `stripe-webhook` (billing state), `invite-member` (Resend + invitations table), `check-plan-limits` (usage enforcement)
@@ -110,6 +115,7 @@ See `.planning/research/PITFALLS.md` for 10 critical, 5 moderate, and 3 minor pi
 The architecture's build order from ARCHITECTURE.md and the feature dependencies from FEATURES.md both point to the same phase structure. Each phase is a deployable vertical slice that unblocks the next.
 
 ### Phase 1: Project Foundation + Schema + RLS
+
 **Rationale:** Every subsequent phase depends on tenant isolation being correct. RLS written too late means retrofitting policies across a live schema — the highest-cost mistake in a multi-tenant SaaS. This phase has no UI deliverables but is the load-bearing structure for everything else.
 **Delivers:** Supabase project initialized, all tables created with RLS enabled, JWT custom claims wired (`auth.org_id()`, `auth.org_role()` helper functions), all policies written across three isolation levels (org, cabinet, user), indexes on high-traffic columns, Postgres trigger for immutable `activity_logs` on status change, status FK with `ON DELETE RESTRICT`.
 **Addresses:** Table stakes — data isolation, customizable statuses, activity log integrity
@@ -117,6 +123,7 @@ The architecture's build order from ARCHITECTURE.md and the feature dependencies
 **Research flag:** Standard Supabase RLS patterns — well-documented; skip research-phase.
 
 ### Phase 2: Authentication + Organization Onboarding
+
 **Rationale:** Cannot test any feature without a valid JWT that carries `org_id` and `role` claims. The onboarding flow must complete in one session (Pennylane credentials + first connection test) or users abandon. This is also where invite tokens and their security constraints must be built correctly before any collaborateur is ever added.
 **Delivers:** Auth flows (login, registration, invite acceptance), org creation on first login, Pennylane credential entry with "test connection" validation, invite-member Edge Function (Resend), pending invitations table with `expires_at` + `accepted_at` columns.
 **Addresses:** Table stakes — organization creation, invitation flow, multi-user access
@@ -125,6 +132,7 @@ The architecture's build order from ARCHITECTURE.md and the feature dependencies
 **Research flag:** Standard Supabase Auth patterns — skip research-phase. Resend invite flow is straightforward.
 
 ### Phase 3: Dossiers Core + Dashboard UI
+
 **Rationale:** First user-visible value. Requires Phases 1 and 2 to be stable (valid JWT, org exists, schema frozen). This phase delivers the product's primary daily-use surface — the dossier table with filtering, the side panel, status management, and the real-time activity log.
 **Delivers:** TanStack Table with server-side pagination/filtering (cabinet, statut, échéance), side panel with Framer Motion slide-in, status change with optimistic UI, activity log display, manual comments, deadline urgency color-coding, customizable status management UI (with reassign-before-delete flow), Realtime subscription on `dossiers` + `activity_logs`.
 **Addresses:** Table stakes — dossier list, status change, filtering, deadline visibility, side panel, activity log, manual comments, status customization
@@ -132,6 +140,7 @@ The architecture's build order from ARCHITECTURE.md and the feature dependencies
 **Research flag:** TanStack Table server-side mode is well-documented. Framer Motion `AnimatePresence` patterns are established. Skip research-phase.
 
 ### Phase 4: Pennylane Sync
+
 **Rationale:** The product's core value proposition is replacing Airtable + N8N. The dossier table built in Phase 3 has no data until this phase delivers. The Redshift connection is the highest-risk integration technically — it must be designed with timeout resilience from day one.
 **Delivers:** `sync-pennylane` Edge Function (two-stage: Redshift fetch → staging table → upsert to `dossiers`), Supabase Vault credential storage and retrieval, sync status feedback in the UI (loading / success / error states + last sync timestamp), `sync_logs` table with `sync_state` tracking, org-level exclusion filter configuration, manual sync trigger in the UI.
 **Addresses:** Table stakes — Pennylane sync, sync status feedback; Differentiator — configurable exclusion filters, sync history
@@ -139,6 +148,7 @@ The architecture's build order from ARCHITECTURE.md and the feature dependencies
 **Research flag:** NEEDS RESEARCH — `npm:pg` in Deno for Redshift TCP, exact Vault API shape, Edge Function timeout limits (plan-dependent and may have changed). Recommend `/gsd:research-phase` before implementing sync function.
 
 ### Phase 5: Stripe Billing + Plan Enforcement
+
 **Rationale:** Plan enforcement wraps around sync (auto-sync is Pro+ gated) and data limits (dossier count caps). Billing must be built after sync is stable and validated — building it earlier means plan enforcement gates an unvalidated feature, which confuses testing. Billing is also where the subscription mirroring pattern must be idempotency-safe.
 **Delivers:** `stripe-webhook` Edge Function (signature verification, idempotency via `processed_stripe_events` table, subscription state mirror), `subscriptions` table, billing page (plan display, dossier usage counter, Stripe Customer Portal redirect), plan-gated UI elements (auto-sync toggle, CSV export, sync history), `check-plan-limits` Edge Function.
 **Addresses:** Table stakes — subscription/billing management; Differentiators — plan-gated auto-sync, CSV export, sync history
@@ -146,6 +156,7 @@ The architecture's build order from ARCHITECTURE.md and the feature dependencies
 **Research flag:** Stripe webhook in Deno is well-documented via official Supabase guides — skip research-phase. Verify `Stripe.createFetchHttpClient()` is still the correct Deno pattern.
 
 ### Phase 6: Automatic Sync (pg_cron + Queue)
+
 **Rationale:** Auto-sync is deliberately deferred after manual sync is validated (per FEATURES.md MVP recommendation). pg_cron is a non-trivial integration: it requires queue-based dispatch, plan checks at queue INSERT time, staggered processing, and failure alerting — none of which can be safely rushed. Doing this after Stripe (Phase 5) ensures plan state is stable before gating auto-sync.
 **Delivers:** `sync_queue` table, pg_cron job (Monday 6h UTC, plan-filtered queue INSERT only), queue processor Edge Function or pg_cron job (5-org batches, staggered), pg_cron monitoring query (alerts via Resend on sync failures > 0 in 24h), dead-man's-switch for stuck sync states.
 **Addresses:** Differentiator — automatic weekly sync (Pro+)
@@ -153,6 +164,7 @@ The architecture's build order from ARCHITECTURE.md and the feature dependencies
 **Research flag:** NEEDS RESEARCH — `pg_net.http_post` exact signature, pg_cron job management API (`cron.unschedule`), current Edge Function concurrency limits. Recommend `/gsd:research-phase` for cron + queue architecture.
 
 ### Phase 7: Landing Page + Public Presence
+
 **Rationale:** Built last because pricing (from Stripe Phase 5) and feature set (from Phases 3-6) must be finalized before writing copy. Landing page depends on knowing what to promise. Framer Motion animations here draw on the same animation patterns proven in Phases 3-6.
 **Delivers:** Marketing landing page (features section, pricing section, CTA to registration), Cal Sans / DM Sans typography applied consistently, Framer Motion scroll animations.
 **Addresses:** Public funnel for self-serve signups
@@ -170,10 +182,12 @@ The architecture's build order from ARCHITECTURE.md and the feature dependencies
 ### Research Flags
 
 **Phases needing `/gsd:research-phase` during planning:**
+
 - **Phase 4 (Pennylane Sync):** `npm:pg` in Deno for Redshift TCP connection is MEDIUM confidence; Edge Function timeout limits are plan-dependent and may have changed since training cutoff; Vault `decrypted_secrets` view name should be verified against live Supabase project.
 - **Phase 6 (Auto-Sync / pg_cron):** `pg_net.http_post` exact signature is MEDIUM confidence; pg_cron job lifecycle management should be verified; Deno Edge Function concurrency limits under pg_cron-triggered load are unknown.
 
 **Phases with standard, well-documented patterns (skip research-phase):**
+
 - **Phase 1 (Schema + RLS):** Supabase RLS with JWT custom claims is a core Supabase feature with official documentation.
 - **Phase 2 (Auth + Onboarding):** Supabase Auth email/password flow with invite tokens is well-documented.
 - **Phase 3 (Dashboard UI):** TanStack Table v8 + React Query v5 + Framer Motion v11 all have stable, documented APIs.
@@ -184,12 +198,12 @@ The architecture's build order from ARCHITECTURE.md and the feature dependencies
 
 ## Confidence Assessment
 
-| Area | Confidence | Notes |
-|------|------------|-------|
-| Stack | MEDIUM-HIGH | React/Vite/TS/shadcn/TanStack are HIGH. framer-motion package naming status (vs `motion`) is MEDIUM — verify before install. React 19 compatibility is LOW — stay on 18.3.x. |
-| Features | HIGH | Requirements derived from PROJECT.md + first customer (Actuariel, 920 dossiers) — highly concrete. Competitive market analysis (Coala, ACD, Pennylane ecosystem) is MEDIUM — no live research. |
-| Architecture | HIGH for Supabase patterns | RLS, JWT custom claims, Vault, Edge Functions with service_role are all established, well-documented Supabase patterns. MEDIUM for pg_net HTTP call signature from pg_cron — verify before Phase 6. |
-| Pitfalls | MEDIUM | All critical pitfalls are structurally sound (derived from established multi-tenant SaaS patterns + French legal context). Specific Supabase limits (Edge Function timeout, pg_cron `cron.job_run_details` behavior) should be verified against current docs. |
+| Area         | Confidence                 | Notes                                                                                                                                                                                                                                                         |
+| ------------ | -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Stack        | MEDIUM-HIGH                | React/Vite/TS/shadcn/TanStack are HIGH. framer-motion package naming status (vs `motion`) is MEDIUM — verify before install. React 19 compatibility is LOW — stay on 18.3.x.                                                                                  |
+| Features     | HIGH                       | Requirements derived from PROJECT.md + first customer (Actuariel, 920 dossiers) — highly concrete. Competitive market analysis (Coala, ACD, Pennylane ecosystem) is MEDIUM — no live research.                                                                |
+| Architecture | HIGH for Supabase patterns | RLS, JWT custom claims, Vault, Edge Functions with service_role are all established, well-documented Supabase patterns. MEDIUM for pg_net HTTP call signature from pg_cron — verify before Phase 6.                                                           |
+| Pitfalls     | MEDIUM                     | All critical pitfalls are structurally sound (derived from established multi-tenant SaaS patterns + French legal context). Specific Supabase limits (Edge Function timeout, pg_cron `cron.job_run_details` behavior) should be verified against current docs. |
 
 **Overall confidence:** MEDIUM-HIGH — requirements are concrete (real first customer), stack choices are constrained and proven, architecture follows established Supabase patterns. Two integration points (Redshift via Deno, pg_cron + pg_net) are technically MEDIUM and warrant research-phase before implementation.
 
@@ -207,11 +221,13 @@ The architecture's build order from ARCHITECTURE.md and the feature dependencies
 ## Sources
 
 ### Primary (HIGH confidence)
+
 - `PROJECT.md` — validated requirements from first customer Actuariel (920 dossiers, 3 cabinets); Pennylane Redshift Datashare integration; pricing model; technology constraints
 - Supabase official docs (training knowledge, pre-August 2025): RLS, JWT custom claims, Vault, Edge Functions, pg_cron, Stripe webhook integration guide
 - French Code de Commerce: AGO deadlines (Art. L223-26 SARL, Art. L225-100 SA); secret professionnel (Art. 226-13 Code pénal); RGPD Article 5(1)(f)
 
 ### Secondary (MEDIUM confidence)
+
 - Stripe webhook best practices (idempotency, signature verification) — training knowledge, cross-validated with Supabase Stripe guide structure
 - TanStack Table v8 + TanStack Query v5 API patterns — training knowledge; v8/v5 APIs were stable as of mid-2025
 - Redshift PostgreSQL wire-compatibility (port 5439, SSL config) — training knowledge; HIGH confidence on wire protocol, MEDIUM on SSL config specifics
@@ -219,6 +235,7 @@ The architecture's build order from ARCHITECTURE.md and the feature dependencies
 - French expert-comptable market tooling (Coala, ACD, Pennylane ecosystem) — training knowledge; no live competitive research performed
 
 ### Tertiary (LOW confidence — validate before use)
+
 - framer-motion v11 vs `motion` package rename status — verify at https://www.npmjs.com/package/framer-motion
 - React 19 compatibility with framer-motion + shadcn — verify at https://ui.shadcn.com/docs/changelog
 - Supabase Edge Function timeout limits by plan — verify at https://supabase.com/docs/guides/functions/limits
@@ -226,5 +243,5 @@ The architecture's build order from ARCHITECTURE.md and the feature dependencies
 
 ---
 
-*Research completed: 2026-03-15*
-*Ready for roadmap: yes*
+_Research completed: 2026-03-15_
+_Ready for roadmap: yes_

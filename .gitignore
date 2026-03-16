@@ -1,0 +1,31 @@
+# dependencies
+node_modules
+
+# next
+.next
+out
+build
+
+# env
+.env
+.env.local
+.env.development
+.env.production
+
+# logs
+logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# editor
+.vscode
+.idea
+
+# Supabase local
+.supabase
+
+# cache
+.cache

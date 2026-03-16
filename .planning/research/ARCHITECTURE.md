@@ -51,19 +51,19 @@ External Systems
 
 ## Component Boundaries
 
-| Component | Responsibility | Communicates With |
-|-----------|---------------|-------------------|
-| React SPA | UI, client-side routing, state, Framer Motion | Supabase JS, Stripe redirect |
-| Supabase Auth | JWT issuance, session management, invite tokens | SPA (session), Edge Functions (JWT verify) |
-| PostgREST (RLS) | Data reads and writes with tenant isolation enforced at DB layer | SPA via supabase-js |
-| Realtime | Push dossier/log row changes to subscribed clients | SPA subscriptions |
-| Edge Function: sync-pennylane | Fetch Redshift credentials from Vault, connect to Redshift, run org-scoped SQL, upsert dossiers, write sync_log | Vault, Redshift, postgres (dossiers, sync_logs) |
-| Edge Function: stripe-webhook | Validate Stripe signature, parse event, update subscriptions table | Stripe, postgres (subscriptions) |
-| Edge Function: invite-member | Validate caller role (expert-comptable only), create pending_invitations row, send Resend email | postgres, Resend |
-| Edge Function: check-plan-limits | Count active dossiers for org, compare vs plan tier, return allow/deny | postgres (dossiers, subscriptions) |
-| Supabase Vault | Encrypted storage for per-org Redshift credentials | Edge Functions only (never SPA) |
-| Stripe | Subscription lifecycle, payment, hosted billing portal | stripe-webhook Edge Function |
-| Redshift (Pennylane) | Source data for dossiers | sync-pennylane Edge Function only |
+| Component                        | Responsibility                                                                                                  | Communicates With                               |
+| -------------------------------- | --------------------------------------------------------------------------------------------------------------- | ----------------------------------------------- |
+| React SPA                        | UI, client-side routing, state, Framer Motion                                                                   | Supabase JS, Stripe redirect                    |
+| Supabase Auth                    | JWT issuance, session management, invite tokens                                                                 | SPA (session), Edge Functions (JWT verify)      |
+| PostgREST (RLS)                  | Data reads and writes with tenant isolation enforced at DB layer                                                | SPA via supabase-js                             |
+| Realtime                         | Push dossier/log row changes to subscribed clients                                                              | SPA subscriptions                               |
+| Edge Function: sync-pennylane    | Fetch Redshift credentials from Vault, connect to Redshift, run org-scoped SQL, upsert dossiers, write sync_log | Vault, Redshift, postgres (dossiers, sync_logs) |
+| Edge Function: stripe-webhook    | Validate Stripe signature, parse event, update subscriptions table                                              | Stripe, postgres (subscriptions)                |
+| Edge Function: invite-member     | Validate caller role (expert-comptable only), create pending_invitations row, send Resend email                 | postgres, Resend                                |
+| Edge Function: check-plan-limits | Count active dossiers for org, compare vs plan tier, return allow/deny                                          | postgres (dossiers, subscriptions)              |
+| Supabase Vault                   | Encrypted storage for per-org Redshift credentials                                                              | Edge Functions only (never SPA)                 |
+| Stripe                           | Subscription lifecycle, payment, hosted billing portal                                                          | stripe-webhook Edge Function                    |
+| Redshift (Pennylane)             | Source data for dossiers                                                                                        | sync-pennylane Edge Function only               |
 
 ---
 
@@ -156,6 +156,7 @@ User clicks "Upgrade" in billing page
 ### Foundational Setup
 
 Every table that contains tenant data MUST have:
+
 1. `org_id UUID NOT NULL REFERENCES organisations(id)` column
 2. `ALTER TABLE <table> ENABLE ROW LEVEL SECURITY`
 3. Explicit policies for SELECT, INSERT, UPDATE, DELETE (never rely on defaults)
@@ -273,6 +274,7 @@ CREATE POLICY "activity_logs_insert" ON activity_logs
 ### Edge Function RLS Bypass
 
 Edge Functions that perform cross-org operations (sync-pennylane, stripe-webhook) use the `service_role` key — they bypass RLS entirely. This is intentional and safe because:
+
 - These functions are never called from the client directly with user context
 - They validate org scoping in application logic before writing
 - stripe-webhook validates Stripe signature before trusting any payload
@@ -374,36 +376,43 @@ Layer 7: Landing Page
 ## Anti-Patterns to Avoid
 
 ### Anti-Pattern 1: Storing org_id Only in Application Layer
+
 **What:** Trusting client-sent `org_id` param in queries without RLS enforcement.
 **Why bad:** Any user could read another org's data by changing a parameter.
 **Instead:** ALWAYS enforce `org_id = auth.org_id()` in RLS policies. Client never controls scoping.
 
 ### Anti-Pattern 2: Using `service_role` Key in the Browser
+
 **What:** Exposing `SUPABASE_SERVICE_ROLE_KEY` in the React SPA.
 **Why bad:** Bypasses all RLS — any user can access any tenant's data.
 **Instead:** Service role is used ONLY in Edge Functions (server-side, never exposed).
 
 ### Anti-Pattern 3: Blocking Sync on Existing Status Values
+
 **What:** The sync upsert overwrites the `statut_id` field when a dossier already exists.
 **Why bad:** Destroys manually-set status — a hard requirement violation from PROJECT.md.
 **Instead:** Use `ON CONFLICT (task_uid) DO UPDATE SET <non-status-fields-only>`. Explicitly exclude `statut_id` from the UPDATE SET clause.
 
 ### Anti-Pattern 4: RLS Policies Without Indexes
+
 **What:** Writing `cabinet_id IN (SELECT cabinet_id FROM cabinet_assignments WHERE user_id = auth.uid())` without an index on `cabinet_assignments(user_id)`.
 **Why bad:** Every row read triggers a sequential scan of cabinet_assignments — catastrophic at scale.
 **Instead:** Index `cabinet_assignments(user_id)` and `dossiers(org_id, cabinet_id)` before shipping.
 
 ### Anti-Pattern 5: JWT Claims Not Refreshed After Role Change
+
 **What:** User's role changes in `org_members` but their active JWT still has the old role.
 **Why bad:** RLS policies read from JWT claims — old claims permit wrong access for up to 1 hour.
 **Instead:** Call `supabase.auth.refreshSession()` after any role/cabinet assignment change. Force re-login for revocations.
 
 ### Anti-Pattern 6: Stripe Plan Enforcement Only in UI
+
 **What:** Disabling the "Sync" button in React but not checking in the Edge Function.
 **Why bad:** Any user with API access (cURL, Postman) bypasses the check.
 **Instead:** Always enforce limits server-side in the Edge Function. UI gates are UX, not security.
 
 ### Anti-Pattern 7: Hardcoding Plan Tiers in Edge Functions
+
 **What:** `if (plan === 'pro') { allowAutoSync = true }` in function code.
 **Why bad:** Adding a new plan requires redeploying functions; `subscriptions.auto_sync` gets out of sync.
 **Instead:** Store plan capabilities in the `subscriptions` table as boolean columns (`auto_sync`, `csv_export`). Edge Functions read the row — plan tier is metadata, not logic driver.
@@ -412,26 +421,26 @@ Layer 7: Landing Page
 
 ## Scalability Considerations
 
-| Concern | At 100 dossiers | At 1,000 dossiers (v1 target) | At 10,000 dossiers |
-|---------|-----------------|-------------------------------|-------------------|
-| RLS policy performance | No issue | Ensure `cabinet_assignments(user_id)` index exists | Add `dossiers(org_id)` partial index |
-| Realtime subscriptions | No issue | Filter subscription to `org_id` channel to avoid broadcast storms | Per-cabinet channels |
-| Redshift sync latency | Single batch fine | Batch upsert with ON CONFLICT, single transaction | Paginate Redshift results |
-| Stripe webhook queue | No issue | Idempotency table critical if retries spike | Standard Stripe retry handling sufficient |
-| activity_logs growth | No issue | Paginate log reads in side panel (limit 50) | Partition by month if > 1M rows |
+| Concern                | At 100 dossiers   | At 1,000 dossiers (v1 target)                                     | At 10,000 dossiers                        |
+| ---------------------- | ----------------- | ----------------------------------------------------------------- | ----------------------------------------- |
+| RLS policy performance | No issue          | Ensure `cabinet_assignments(user_id)` index exists                | Add `dossiers(org_id)` partial index      |
+| Realtime subscriptions | No issue          | Filter subscription to `org_id` channel to avoid broadcast storms | Per-cabinet channels                      |
+| Redshift sync latency  | Single batch fine | Batch upsert with ON CONFLICT, single transaction                 | Paginate Redshift results                 |
+| Stripe webhook queue   | No issue          | Idempotency table critical if retries spike                       | Standard Stripe retry handling sufficient |
+| activity_logs growth   | No issue          | Paginate log reads in side panel (limit 50)                       | Partition by month if > 1M rows           |
 
 ---
 
 ## Key Architecture Decisions
 
-| Decision | Rationale |
-|----------|-----------|
-| JWT custom claims for org_id + role | Avoids DB lookup on every RLS check — claims embedded in token, evaluated per-query in microseconds |
-| Edge Functions use service_role | Sync and webhook operations span multiple tables and bypass RLS by design — application-level scoping in function code is the guard |
-| Supabase Vault for Redshift credentials | Vault secrets are encrypted at rest and never readable via PostgREST — only accessible from Edge Functions via API |
-| Upsert deduplication on task_uid | task_uid is the Pennylane-native identifier — stable across syncs, prevents duplicate creation |
-| Immutable activity_logs (no DELETE policy) | Audit trail integrity — status changes and comments must be non-repudiable |
-| subscriptions table mirrors Stripe state | Avoids calling Stripe API on every page load — webhook keeps table in sync, SPA reads locally |
+| Decision                                   | Rationale                                                                                                                           |
+| ------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------- |
+| JWT custom claims for org_id + role        | Avoids DB lookup on every RLS check — claims embedded in token, evaluated per-query in microseconds                                 |
+| Edge Functions use service_role            | Sync and webhook operations span multiple tables and bypass RLS by design — application-level scoping in function code is the guard |
+| Supabase Vault for Redshift credentials    | Vault secrets are encrypted at rest and never readable via PostgREST — only accessible from Edge Functions via API                  |
+| Upsert deduplication on task_uid           | task_uid is the Pennylane-native identifier — stable across syncs, prevents duplicate creation                                      |
+| Immutable activity_logs (no DELETE policy) | Audit trail integrity — status changes and comments must be non-repudiable                                                          |
+| subscriptions table mirrors Stripe state   | Avoids calling Stripe API on every page load — webhook keeps table in sync, SPA reads locally                                       |
 
 ---
 

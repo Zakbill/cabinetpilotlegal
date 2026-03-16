@@ -22,14 +22,17 @@ begin
   where organization_id = v_org_id
   limit 1;
 
+  -- Insérer un cabinet pour cette organisation
+  insert into public.cabinets (organization_id, name)
+  values (v_org_id, 'Cabinet Test');
+
   -- Insérer un dossier qui référence ce statut
   insert into public.dossiers (organization_id, cabinet_id, type, status_id)
   select v_org_id, id, 'AGO', v_status_id
   from public.cabinets
   where organization_id = v_org_id
-  limit 1;
-
-  v_dossier_id := lastval()::uuid;
+  limit 1
+  returning id into v_dossier_id;
 end $$;
 
 -- Tenter de supprimer un statut utilisé — doit lever 23503

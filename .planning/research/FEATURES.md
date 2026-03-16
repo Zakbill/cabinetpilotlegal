@@ -10,24 +10,24 @@
 
 Features users expect in any professional-services tracking tool. Missing = product feels unfinished or users do not migrate from their Airtable/N8N setup.
 
-| Feature | Why Expected | Complexity | Notes |
-|---------|--------------|------------|-------|
-| Dossier list view with status column | Core UX — users need to scan hundreds of files at a glance | Low | TanStack Table; all AGO columns visible |
-| Status change per dossier | The entire workflow is about moving a dossier through stages | Low | From side panel or inline; no page reload |
-| Filterable / sortable table | 920+ dossiers for one cabinet group — filtering is survival, not nice-to-have | Low-Med | Filter by cabinet, statut, date d'échéance minimum |
-| Deadline visibility | AGO has hard statutory deadlines (6 months post-clôture for SARL/SA/SAS) — missing them means client liability | Low | Color-coded by urgency: overdue / <30j / ok |
-| Activity log per dossier | Accountants share files across collaborateurs — audit trail of who changed what | Med | Chronological feed: status changes + manual comments |
-| Manual comment on a dossier | Internal notes for collaborateurs ("client indisponible, rappel le 20/03") | Low | Author + timestamp; no threading needed v1 |
-| Multi-user access with role separation | Cabinet has experts-comptables + collaborateurs with different permissions | Med | Two roles minimum: admin and collaborateur |
-| Scoped access per cabinet | Collaborateurs only see their assigned cabinets; experts see all | Med | Supabase RLS; enforced server-side |
-| Invitation flow | New team member onboarding — must work via email invite with role pre-assignment | Med | Resend email, pending invite state |
-| Pennylane data sync | Product exists to replace the N8N+Airtable Pennylane sync — this IS the product | High | Redshift connection, upsert logic, never overwrites status |
-| Sync status feedback | Users need to know if the sync worked; latency from Redshift requires explicit progress states | Med | Loading → success/error; last sync timestamp displayed |
-| Organization creation on first login | SaaS onboarding must complete in one session or users abandon | Med | Pennylane credentials + first sync in onboarding flow |
-| Customizable statuses | Every cabinet runs a slightly different internal process — fixed statuses cause rejection | Med | Rename, reorder, add, delete; terminal statuses configurable |
-| Default status pipeline pre-loaded | Users should not start from a blank slate — cognitive friction kills onboarding | Low | 7 default statuses as defined in PROJECT.md |
-| Data isolation between organizations | Multi-tenant SaaS — non-negotiable for legal/financial data | High | Row-Level Security; must be verified at every query |
-| Subscription / billing management | Self-serve SaaS model requires clear plan visibility and upgrade path | Med | Stripe integration; usage counter (dossiers actifs) visible |
+| Feature                                | Why Expected                                                                                                   | Complexity | Notes                                                        |
+| -------------------------------------- | -------------------------------------------------------------------------------------------------------------- | ---------- | ------------------------------------------------------------ |
+| Dossier list view with status column   | Core UX — users need to scan hundreds of files at a glance                                                     | Low        | TanStack Table; all AGO columns visible                      |
+| Status change per dossier              | The entire workflow is about moving a dossier through stages                                                   | Low        | From side panel or inline; no page reload                    |
+| Filterable / sortable table            | 920+ dossiers for one cabinet group — filtering is survival, not nice-to-have                                  | Low-Med    | Filter by cabinet, statut, date d'échéance minimum           |
+| Deadline visibility                    | AGO has hard statutory deadlines (6 months post-clôture for SARL/SA/SAS) — missing them means client liability | Low        | Color-coded by urgency: overdue / <30j / ok                  |
+| Activity log per dossier               | Accountants share files across collaborateurs — audit trail of who changed what                                | Med        | Chronological feed: status changes + manual comments         |
+| Manual comment on a dossier            | Internal notes for collaborateurs ("client indisponible, rappel le 20/03")                                     | Low        | Author + timestamp; no threading needed v1                   |
+| Multi-user access with role separation | Cabinet has experts-comptables + collaborateurs with different permissions                                     | Med        | Two roles minimum: admin and collaborateur                   |
+| Scoped access per cabinet              | Collaborateurs only see their assigned cabinets; experts see all                                               | Med        | Supabase RLS; enforced server-side                           |
+| Invitation flow                        | New team member onboarding — must work via email invite with role pre-assignment                               | Med        | Resend email, pending invite state                           |
+| Pennylane data sync                    | Product exists to replace the N8N+Airtable Pennylane sync — this IS the product                                | High       | Redshift connection, upsert logic, never overwrites status   |
+| Sync status feedback                   | Users need to know if the sync worked; latency from Redshift requires explicit progress states                 | Med        | Loading → success/error; last sync timestamp displayed       |
+| Organization creation on first login   | SaaS onboarding must complete in one session or users abandon                                                  | Med        | Pennylane credentials + first sync in onboarding flow        |
+| Customizable statuses                  | Every cabinet runs a slightly different internal process — fixed statuses cause rejection                      | Med        | Rename, reorder, add, delete; terminal statuses configurable |
+| Default status pipeline pre-loaded     | Users should not start from a blank slate — cognitive friction kills onboarding                                | Low        | 7 default statuses as defined in PROJECT.md                  |
+| Data isolation between organizations   | Multi-tenant SaaS — non-negotiable for legal/financial data                                                    | High       | Row-Level Security; must be verified at every query          |
+| Subscription / billing management      | Self-serve SaaS model requires clear plan visibility and upgrade path                                          | Med        | Stripe integration; usage counter (dossiers actifs) visible  |
 
 ---
 
@@ -35,18 +35,18 @@ Features users expect in any professional-services tracking tool. Missing = prod
 
 Features that create competitive advantage over generic Airtable setups or horizontal project management tools. Not universally expected, but high value for this specific domain.
 
-| Feature | Value Proposition | Complexity | Notes |
-|---------|-------------------|------------|-------|
-| Automatic weekly Pennylane sync (Pro+) | Eliminates manual sync entirely; cabinet never has stale data | High | pg_cron; plan-gated feature (not on Starter) |
-| Smart deadline alerts | AGO deadlines are statutory — proactive alerting prevents liability (email or in-app notifications) | Med | Compute urgency from `date_echeance`; badge or email digest |
-| Configurable exclusion filters per org | Different cabinets exclude different dossier types (LMNP, BNC, EI, etc.) — one-size rules break real data | Med | Org-level filter config: codes juridiques, régimes fiscaux, seuil exercice |
-| Sync history / audit log (Cabinet+) | Compliance-minded cabinets want proof of what synced when; also debugging tool | Med | `sync_logs` table; visible in UI on Cabinet/Enterprise plans |
-| CSV export (Cabinet+) | Accountants always need to export to Excel for partners, clients, or backup | Low | Filtered or full export; plan-gated |
-| Extensible mission schema | AGO today, then creation de société, dissolution, etc. — schema designed for growth signals product longevity | High | `dossiers.type` field; AGO-specific fields don't block other types |
-| Per-dossier side panel UX | Fast context without losing list position — superior to navigating to a full page and back | Med | Slide-in panel with Framer Motion; keyboard-dismissable |
-| Pricing per dossiers actifs (not per seat) | Cabinets have variable team sizes but predictable workload volume; seat-based pricing penalizes collaboration | Low | Metering logic in Stripe; usage shown on billing page |
-| Unlimited collaborateurs on all plans | Removes friction for adding team members; differentiates from seat-based competitors | Low | Business model decision already validated |
-| Dedicated onboarding for Enterprise | Large cabinet groups (10+ cabinets) need hand-holding on Redshift setup | Low-Med | Manual process; SLA commitment |
+| Feature                                    | Value Proposition                                                                                             | Complexity | Notes                                                                      |
+| ------------------------------------------ | ------------------------------------------------------------------------------------------------------------- | ---------- | -------------------------------------------------------------------------- |
+| Automatic weekly Pennylane sync (Pro+)     | Eliminates manual sync entirely; cabinet never has stale data                                                 | High       | pg_cron; plan-gated feature (not on Starter)                               |
+| Smart deadline alerts                      | AGO deadlines are statutory — proactive alerting prevents liability (email or in-app notifications)           | Med        | Compute urgency from `date_echeance`; badge or email digest                |
+| Configurable exclusion filters per org     | Different cabinets exclude different dossier types (LMNP, BNC, EI, etc.) — one-size rules break real data     | Med        | Org-level filter config: codes juridiques, régimes fiscaux, seuil exercice |
+| Sync history / audit log (Cabinet+)        | Compliance-minded cabinets want proof of what synced when; also debugging tool                                | Med        | `sync_logs` table; visible in UI on Cabinet/Enterprise plans               |
+| CSV export (Cabinet+)                      | Accountants always need to export to Excel for partners, clients, or backup                                   | Low        | Filtered or full export; plan-gated                                        |
+| Extensible mission schema                  | AGO today, then creation de société, dissolution, etc. — schema designed for growth signals product longevity | High       | `dossiers.type` field; AGO-specific fields don't block other types         |
+| Per-dossier side panel UX                  | Fast context without losing list position — superior to navigating to a full page and back                    | Med        | Slide-in panel with Framer Motion; keyboard-dismissable                    |
+| Pricing per dossiers actifs (not per seat) | Cabinets have variable team sizes but predictable workload volume; seat-based pricing penalizes collaboration | Low        | Metering logic in Stripe; usage shown on billing page                      |
+| Unlimited collaborateurs on all plans      | Removes friction for adding team members; differentiates from seat-based competitors                          | Low        | Business model decision already validated                                  |
+| Dedicated onboarding for Enterprise        | Large cabinet groups (10+ cabinets) need hand-holding on Redshift setup                                       | Low-Med    | Manual process; SLA commitment                                             |
 
 ---
 
@@ -54,20 +54,20 @@ Features that create competitive advantage over generic Airtable setups or horiz
 
 Features to deliberately NOT build for v1. Explicitly out of scope to protect focus and shipping velocity.
 
-| Anti-Feature | Why Avoid | What to Do Instead |
-|--------------|-----------|-------------------|
-| Real-time chat / messaging | N+1 product to build and maintain; the activity log covers async coordination needs | Use activity log + comment thread per dossier |
-| Mentions (@user) and reactions in comments | Adds notification infrastructure; overkill for a two-role team tool in v1 | Simple author attribution on each comment suffices |
-| File attachments to dossiers | Storage, virus scanning, access control complexity; not the core workflow | Link to external documents in a comment field |
-| Other mission types (création, dissolution…) | Schema is extensible, but building UI for them now dilutes AGO focus | Mark `dossiers.type` as future; build AGO-complete first |
-| Mobile native app | Web-first; cabinets work on desktop in-office | Responsive web covers occasional mobile access |
-| i18n / multi-language | Market is exclusively French; translation adds maintenance overhead with zero near-term ROI | All UI, emails, errors in French only |
-| Integrations beyond Pennylane | Building integrations with ACD, Silae, Coala, etc. requires new data models per source | Document integration interface; build v2 with validated demand |
-| Time tracking / billing hours | Different product category; accountants use dedicated tools (Silae, etc.) | Out of scope permanently unless strategic pivot |
-| Client portal (client-facing access) | Requires separate auth flows, access control logic, UX for non-accountant users | Flag as potential v3; focus on internal cabinet tool first |
-| Kanban board view | List view + status column already provides the same information; kanban adds complexity without AGO-specific gain | The table with status filter is the kanban equivalent for this domain |
-| Email integration (send emails from app) | Different product; Resend is used for system emails only, not client communication | Out of scope; accountants use their email client |
-| AI-generated PV drafts | Could be valuable but requires legal review; liability risk for v1 | Research as v2 differentiator once core workflow is proven |
+| Anti-Feature                                 | Why Avoid                                                                                                         | What to Do Instead                                                    |
+| -------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| Real-time chat / messaging                   | N+1 product to build and maintain; the activity log covers async coordination needs                               | Use activity log + comment thread per dossier                         |
+| Mentions (@user) and reactions in comments   | Adds notification infrastructure; overkill for a two-role team tool in v1                                         | Simple author attribution on each comment suffices                    |
+| File attachments to dossiers                 | Storage, virus scanning, access control complexity; not the core workflow                                         | Link to external documents in a comment field                         |
+| Other mission types (création, dissolution…) | Schema is extensible, but building UI for them now dilutes AGO focus                                              | Mark `dossiers.type` as future; build AGO-complete first              |
+| Mobile native app                            | Web-first; cabinets work on desktop in-office                                                                     | Responsive web covers occasional mobile access                        |
+| i18n / multi-language                        | Market is exclusively French; translation adds maintenance overhead with zero near-term ROI                       | All UI, emails, errors in French only                                 |
+| Integrations beyond Pennylane                | Building integrations with ACD, Silae, Coala, etc. requires new data models per source                            | Document integration interface; build v2 with validated demand        |
+| Time tracking / billing hours                | Different product category; accountants use dedicated tools (Silae, etc.)                                         | Out of scope permanently unless strategic pivot                       |
+| Client portal (client-facing access)         | Requires separate auth flows, access control logic, UX for non-accountant users                                   | Flag as potential v3; focus on internal cabinet tool first            |
+| Kanban board view                            | List view + status column already provides the same information; kanban adds complexity without AGO-specific gain | The table with status filter is the kanban equivalent for this domain |
+| Email integration (send emails from app)     | Different product; Resend is used for system emails only, not client communication                                | Out of scope; accountants use their email client                      |
+| AI-generated PV drafts                       | Could be valuable but requires legal review; liability risk for v1                                                | Research as v2 differentiator once core workflow is proven            |
 
 ---
 
@@ -131,6 +131,7 @@ Prioritize (in dependency order):
 7. **Deadline visual urgency indicators** — Low implementation cost, high perceived value for compliance-aware users
 
 Defer to v1.1+:
+
 - Automatic weekly sync: Build after manual sync is stable and user-validated (pg_cron complexity not worth the risk at launch)
 - Sync history UI: Backend table exists but UI can be a later addition
 - CSV export: Useful but not a daily-use blocker; defer to Cabinet plan launch
@@ -141,6 +142,7 @@ Defer to v1.1+:
 ## Competitive Context (LOW confidence — no live research performed)
 
 Tools cabinets currently use for this workflow:
+
 - **Airtable + N8N** (what CabinetPilot directly replaces) — manual, fragile, not purpose-built for French legal obligations
 - **Coala** (Infodoc group) — full practice management; overkill and expensive for AGO tracking alone
 - **ACD Groupe** — heavy ERP-style; not SaaS-native

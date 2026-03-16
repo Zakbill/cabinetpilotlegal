@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Phase 2 context gathered
-last_updated: "2026-03-16T06:13:32.148Z"
+stopped_at: Phase 2 UI-SPEC approved
+last_updated: "2026-03-16T06:25:21.864Z"
 last_activity: 2026-03-16 — Roadmap créé (9 phases, 49 requirements mapped)
 progress:
   total_phases: 9
@@ -91,6 +91,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-16T06:13:32.142Z
-Stopped at: Phase 2 context gathered
-Resume file: .planning/phases/02-authentification-rbac/02-CONTEXT.md
+Last session: 2026-03-16T06:25:21.860Z
+Stopped at: Phase 2 UI-SPEC approved
+Resume file: .planning/phases/02-authentification-rbac/02-UI-SPEC.md

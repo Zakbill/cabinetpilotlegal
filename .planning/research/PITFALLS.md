@@ -21,6 +21,7 @@ Mistakes that cause data leaks, rewrites, compliance failures, or lost revenue.
 **Consequences:** A collaborateur handling Dossier A can load the URL for Dossier B belonging to a different client of the firm. For a French accounting firm, this is a RGPD violation and a professional secrecy breach (`secret professionnel` under Article 226-13 Code pénal). Can result in contract loss and regulatory exposure.
 
 **Prevention:**
+
 1. Write RLS policies for ALL three isolation levels from day one:
    - Cross-org isolation: `organisation_id = (SELECT organisation_id FROM members WHERE user_id = auth.uid())`
    - Cabinet-level isolation for collaborateurs: `cabinet_id = ANY(SELECT cabinet_id FROM cabinet_assignments WHERE user_id = auth.uid())`
@@ -30,6 +31,7 @@ Mistakes that cause data leaks, rewrites, compliance failures, or lost revenue.
 4. Run `EXPLAIN (ANALYZE, BUFFERS)` on RLS-filtered queries early — nested `SELECT` in policies can be slow at scale.
 
 **Detection (warning signs):**
+
 - Postman/curl direct to Supabase REST API returns rows for users who should not see them
 - No automated RLS tests in the test suite
 - Policy was written before RBAC model was finalised
@@ -47,6 +49,7 @@ Mistakes that cause data leaks, rewrites, compliance failures, or lost revenue.
 **Consequences:** The sync function creates 0 new records and logs no errors — it silently succeeds with empty results because RLS filters out everything. Or, if credentials are leaked, attackers bypass all RLS.
 
 **Prevention:**
+
 1. Establish a code convention: Edge Functions that are triggered by cron or service-to-service calls always use service role. Functions called by the browser always use anon key (respecting RLS).
 2. Store `SUPABASE_SERVICE_ROLE_KEY` in Supabase Edge Function secrets, never in source code.
 3. Add a smoke test to the sync function that asserts `rows_processed > 0` on a known-populated org after each deploy.
@@ -66,6 +69,7 @@ Mistakes that cause data leaks, rewrites, compliance failures, or lost revenue.
 **Consequences:** The dashboard table (the product's core feature) becomes unusably slow for the first real client (Actuariel, 920 dossiers). User perception: "the product is broken."
 
 **Prevention:**
+
 1. Replace correlated subqueries with `SECURITY DEFINER` helper functions that Postgres can cache per-transaction: `CREATE FUNCTION get_user_org_id() RETURNS UUID SECURITY DEFINER AS $$ SELECT organisation_id FROM members WHERE user_id = auth.uid() $$`
 2. Add a GIN/btree index on `dossiers(organisation_id)` and `dossiers(cabinet_id)` before writing policies — Postgres uses them during RLS evaluation.
 3. Benchmark with a realistic dataset (load 1000 synthetic dossiers) before first client demo.
@@ -79,6 +83,7 @@ Mistakes that cause data leaks, rewrites, compliance failures, or lost revenue.
 ### Pitfall 4: Stripe Webhook Processing Without Idempotency
 
 **What goes wrong:** Stripe delivers webhooks with at-least-once semantics. If the handler returns a non-2xx response (network blip, Edge Function cold start), Stripe retries the event — sometimes multiple times within seconds. A non-idempotent handler will:
+
 - Create duplicate subscription records
 - Double-charge or double-credit usage
 - Flip a subscription status back to `active` after it was correctly set to `canceled`
@@ -90,6 +95,7 @@ For the CabinetPilot model (plan controls access to pg_cron sync), this means a 
 **Consequences:** Revenue leakage (cancelled orgs keep Pro features), data corruption in `organisations.plan`, inability to audit billing state.
 
 **Prevention:**
+
 1. Store `stripe_event_id` in a `processed_webhook_events` table with a unique constraint. At handler start: `INSERT INTO processed_webhook_events (event_id) VALUES ($1) ON CONFLICT DO NOTHING RETURNING id`. If nothing returned — skip processing.
 2. Use Stripe's idempotency key pattern for all Stripe API calls originating from the backend.
 3. The only source of truth for an org's plan is Stripe's subscription status, not a local cache — always read from the `subscription` object in the webhook payload, not from a derived field.
@@ -110,6 +116,7 @@ For the CabinetPilot model (plan controls access to pg_cron sync), this means a 
 **Consequences:** Full billing system compromise. Fraudulent plan upgrades. Impossible to detect without access logs.
 
 **Prevention:**
+
 1. In Deno/Edge Function: read the raw body with `await req.arrayBuffer()`, convert to `Uint8Array`, and pass to `stripe.webhooks.constructEvent(body, signature, webhookSecret)`. Do not parse JSON before signature verification.
 2. Store `STRIPE_WEBHOOK_SECRET` in Edge Function secrets (not Supabase Vault — separate concerns).
 3. Return 400 immediately if signature check fails — never process the payload.
@@ -123,6 +130,7 @@ For the CabinetPilot model (plan controls access to pg_cron sync), this means a 
 ### Pitfall 6: Redshift Connection Timeout in Edge Functions (Cold Start + Long Query)
 
 **What goes wrong:** Supabase Edge Functions run on Deno Deploy with a wall-clock timeout (50 seconds as of mid-2025 for non-enterprise plans, may vary — verify current limit). The Pennylane sync involves:
+
 1. Cold start: 200-500ms
 2. Retrieving encrypted credentials from Supabase Vault: 100-300ms
 3. TCP handshake + TLS to AWS Redshift eu-west-1 from Supabase's Deno infrastructure: 500-2000ms (cross-cloud, cross-region)
@@ -136,6 +144,7 @@ Total: easily 5-10 seconds per org in the happy path, potentially 30-45 seconds 
 **Consequences:** Partial syncs that silently leave `dossiers` out of date. pg_cron fires, function times out, sync_log shows no error (process killed, not thrown). Users see stale data without knowing why.
 
 **Prevention:**
+
 1. Architect the sync as two stages: (a) fetch from Redshift and write raw results to a staging table in Supabase Postgres, (b) upsert from staging to `dossiers`. If the function times out during stage (a), stage (b) never runs — no partial state.
 2. Use connection pooling / persistent connections with Redshift where possible (Redshift Data API is an alternative that is async and avoids timeout — worth evaluating).
 3. Implement a `sync_state` column in `sync_logs`: `started → fetching → upserting → completed → failed`. A timeout leaves the row in `fetching` or `upserting` state — detectable.
@@ -151,6 +160,7 @@ Total: easily 5-10 seconds per org in the happy path, potentially 30-45 seconds 
 ### Pitfall 7: pg_cron Runs Against the Wrong Tenant (Missing org_id Scoping)
 
 **What goes wrong:** pg_cron jobs are registered as SQL statements or function calls in the Supabase database. A common pattern is: `SELECT cron.schedule('sync-pennylane', '0 6 * * 1', 'SELECT sync_pennylane()');` where `sync_pennylane()` is a function that calls the Edge Function. The function fires at 6am Monday — for all orgs simultaneously. If all Pro+ orgs trigger Redshift connections at the same second, you get:
+
 - Connection exhaustion on Redshift (limited concurrent connections per datashare)
 - Rate limiting by the Edge Function platform
 - All sync logs show the same timestamp, making debugging impossible
@@ -162,6 +172,7 @@ Additionally, if the pg_cron job is not scoped to specific orgs (only Pro/Cabine
 **Consequences:** Pricing model broken (Starter orgs get paid features). Redshift connection storms on Monday mornings. Race conditions in sync_logs.
 
 **Prevention:**
+
 1. The pg_cron job should NOT call a sync directly. It should INSERT rows into a `sync_queue` table with `(org_id, scheduled_at, status: 'pending')`.
 2. A separate Edge Function (or pg_cron job running every minute) processes the queue sequentially or with controlled concurrency: `SELECT * FROM sync_queue WHERE status = 'pending' ORDER BY scheduled_at LIMIT 5`.
 3. The queue INSERT only includes orgs where `plan IN ('pro', 'cabinet', 'enterprise')` — plan check happens at queue time, not sync time.
@@ -182,6 +193,7 @@ Additionally, if the pg_cron job is not scoped to specific orgs (only Pro/Cabine
 **Consequences:** Clients pay for auto-sync that silently stopped working weeks ago. First indication is a client complaint. In an accounting firm context (AGO deadlines are legally fixed), a missed sync can mean missed deadlines.
 
 **Prevention:**
+
 1. After each sync attempt (success or failure), write a row to `sync_logs` with a `status` field. A monitoring query (also via pg_cron) checks: `SELECT COUNT(*) FROM sync_logs WHERE status = 'failed' AND created_at > NOW() - INTERVAL '24 hours'` — alert via Resend email if > 0.
 2. Use `pg_net` (Supabase's built-in HTTP extension) for Edge Function calls from pg_cron, and log the response status code in the queue row.
 3. Consider using Supabase's built-in cron dashboard to inspect `cron.job_run_details` during development.
@@ -195,6 +207,7 @@ Additionally, if the pg_cron job is not scoped to specific orgs (only Pro/Cabine
 ### Pitfall 9: Customizable Status Schema With No Referential Integrity
 
 **What goes wrong:** Statuses are customizable per org — stored in a `statuses` table with `(id, org_id, label, position, is_terminal)`. The `dossiers` table references the current status via `status_id`. If a user deletes a status that has dossiers attached, the application either:
+
 - Throws a foreign key constraint error (if FK is enforced) — bad UX with no recovery path
 - Silently nullifies `status_id` (if FK uses `ON DELETE SET NULL`) — dossiers become status-less, invisible in filtered views
 - Allows the delete (no FK) — `status_id` becomes a dangling reference, joins silently drop rows
@@ -206,6 +219,7 @@ For an accounting firm that relies on status to manage deadlines, invisible doss
 **Consequences:** Dossiers disappear from the dashboard when a status is deleted. No data corruption warning, no audit trail. At annual AGO season, a cabinet may miss dozens of deadlines.
 
 **Prevention:**
+
 1. Never allow deletion of a status that has active dossiers. Before deleting, check `SELECT COUNT(*) FROM dossiers WHERE status_id = $1 AND org_id = $2`. If > 0, block the delete and show the count: "Ce statut est utilisé par 47 dossiers. Réassignez-les avant de supprimer."
 2. Provide a "merge status" or "reassign and delete" flow in the UI.
 3. For truly "deleted" statuses (archived), use `is_archived = true` rather than hard delete. The status label still resolves for historical records.
@@ -227,6 +241,7 @@ For an accounting firm that relies on status to manage deadlines, invisible doss
 **Consequences:** Users see a non-actionable error. Support burden increases. In a SaaS context, the user's first sync failure during onboarding kills conversion.
 
 **Prevention:**
+
 1. Explicitly check for null/undefined after Vault retrieval: `if (!credentials) { throw new SyncError('CREDENTIALS_NOT_CONFIGURED', 'Les identifiants Pennylane ne sont pas configurés pour cette organisation.') }`.
 2. Map error types to user-facing French messages in the sync log.
 3. During onboarding, validate that Vault storage succeeded before letting the user leave the credentials page.
@@ -328,22 +343,22 @@ For an accounting firm that relies on status to manage deadlines, invisible doss
 
 ## Phase-Specific Warnings
 
-| Phase Topic | Likely Pitfall | Mitigation |
-|-------------|----------------|------------|
+| Phase Topic            | Likely Pitfall                                                     | Mitigation                                                                             |
+| ---------------------- | ------------------------------------------------------------------ | -------------------------------------------------------------------------------------- |
 | Phase 2: Schema & Auth | RLS policy not covering cabinet-level isolation for collaborateurs | Write and test all three isolation levels (org, cabinet, user) before writing any data |
-| Phase 2: Schema & Auth | Status delete with attached dossiers — dangling references | DB-level FK with `ON DELETE RESTRICT` + UI pre-check |
-| Phase 2: Schema & Auth | Activity log written application-side | Postgres trigger on `dossiers.status_id` change |
-| Phase 2: Schema & Auth | Invitation tokens without expiry | `expires_at` + `accepted_at` columns from day one |
-| Phase 3: Sync | Edge Function timeout on Redshift cross-cloud query | Two-stage sync with staging table; `sync_state` tracking |
-| Phase 3: Sync | pg_cron firing all orgs simultaneously on Monday 6am | Queue-based dispatch with plan check and staggered processing |
-| Phase 3: Sync | pg_cron silent failure | `sync_logs` with status tracking + monitoring query |
-| Phase 3: Sync | Starter orgs getting auto-sync after plan downgrade | Plan check in queue INSERT SQL, not UI layer |
-| Phase 3: Dashboard | Client-side TanStack Table filtering on 3500+ rows | Server-side pagination from day one |
-| Phase 4: Stripe | Webhook processed multiple times (duplicate events) | `processed_webhook_events` deduplication table |
-| Phase 4: Stripe | Forged webhook events | Stripe signature verification before any payload parsing |
-| Phase 4: Stripe | Plan not enforced on downgrade | Handle `customer.subscription.updated` webhook — purge queue entries |
-| Phase 4/5: Ops | Vault credential retrieval failure with no user message | Explicit null check with French error messages |
-| Phase 5: Ops | No alerting on sync failures for paying customers | pg_cron monitoring query + Resend alert on failure |
+| Phase 2: Schema & Auth | Status delete with attached dossiers — dangling references         | DB-level FK with `ON DELETE RESTRICT` + UI pre-check                                   |
+| Phase 2: Schema & Auth | Activity log written application-side                              | Postgres trigger on `dossiers.status_id` change                                        |
+| Phase 2: Schema & Auth | Invitation tokens without expiry                                   | `expires_at` + `accepted_at` columns from day one                                      |
+| Phase 3: Sync          | Edge Function timeout on Redshift cross-cloud query                | Two-stage sync with staging table; `sync_state` tracking                               |
+| Phase 3: Sync          | pg_cron firing all orgs simultaneously on Monday 6am               | Queue-based dispatch with plan check and staggered processing                          |
+| Phase 3: Sync          | pg_cron silent failure                                             | `sync_logs` with status tracking + monitoring query                                    |
+| Phase 3: Sync          | Starter orgs getting auto-sync after plan downgrade                | Plan check in queue INSERT SQL, not UI layer                                           |
+| Phase 3: Dashboard     | Client-side TanStack Table filtering on 3500+ rows                 | Server-side pagination from day one                                                    |
+| Phase 4: Stripe        | Webhook processed multiple times (duplicate events)                | `processed_webhook_events` deduplication table                                         |
+| Phase 4: Stripe        | Forged webhook events                                              | Stripe signature verification before any payload parsing                               |
+| Phase 4: Stripe        | Plan not enforced on downgrade                                     | Handle `customer.subscription.updated` webhook — purge queue entries                   |
+| Phase 4/5: Ops         | Vault credential retrieval failure with no user message            | Explicit null check with French error messages                                         |
+| Phase 5: Ops           | No alerting on sync failures for paying customers                  | pg_cron monitoring query + Resend alert on failure                                     |
 
 ---
 
@@ -363,6 +378,7 @@ French comptables are bound by `secret professionnel` (professional secrecy) and
 **Confidence:** MEDIUM — all findings from training knowledge (cutoff August 2025). No real-time verification was possible (WebSearch and Context7 unavailable during this research session).
 
 Verify before implementation:
+
 - Supabase Edge Function timeout limits: https://supabase.com/docs/guides/functions/limits
 - pg_cron documentation: https://supabase.com/docs/guides/database/extensions/pg_cron
 - Supabase Vault: https://supabase.com/docs/guides/database/vault

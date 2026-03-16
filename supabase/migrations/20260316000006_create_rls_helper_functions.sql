@@ -53,4 +53,4 @@ $$;
 
 comment on function private.get_my_org_id() is 'RLS helper — lit org_id depuis JWT app_metadata. Usage : (select private.get_my_org_id())';
 comment on function private.get_my_role() is 'RLS helper — lit role depuis JWT app_metadata. Usage : (select private.get_my_role())';
-comment on function private.get_my_cabinet_ids() is 'RLS helper — retourne uuid[] des cabinets assignés. Usage : cabinet_id = any(select private.get_my_cabinet_ids())';
+comment on function private.get_my_cabinet_ids() is 'RLS helper — retourne uuid[] des cabinets assignés. Usage : cabinet_id = any(private.get_my_cabinet_ids())';
