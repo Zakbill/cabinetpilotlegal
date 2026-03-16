@@ -45,7 +45,7 @@ Declared values (multiples of 4 only):
 | 3xl | 64px | Page-level spacing (login page vertical centering offset) |
 
 Exceptions:
-- Touch targets for buttons: minimum 44px height (WCAG 2.5.5)
+- Touch targets for buttons: minimum 48px height (exceeds WCAG 2.5.5 44px minimum)
 - Step indicator circles: 32px × 32px (8px × 4 scale)
 
 ---
@@ -59,9 +59,9 @@ All text in French. No English strings in any UI-facing copy.
 | Body | DM Sans | 16px | 400 (regular) | 1.5 |
 | Label / UI small | DM Sans | 14px | 400 (regular) | 1.4 |
 | Heading (step title, section title) | DM Sans | 20px | 600 (semibold) | 1.2 |
-| Display (login value prop, hero text) | Cal Sans | 28px | 700 (bold) | 1.1 |
+| Display (login value prop, hero text) | Cal Sans | 28px | 600 (semibold) | 1.1 |
 
-Weights declared: **400** (regular) and **600** (semibold). Cal Sans display uses 700 only for the login/landing display role — not a general weight in the UI system.
+Weights declared: **400** (regular) and **600** (semibold). Size (28px) and the distinctive character of Cal Sans provide sufficient visual contrast for the display role without requiring a separate bold weight.
 
 ---
 
@@ -145,7 +145,7 @@ The following screens/flows are covered by this spec. No dashboard screens are i
 - Completed step: 32px circle, `indigo-100` fill, `indigo-600` checkmark icon (Lucide `Check`, 16px)
 - Upcoming step: 32px circle, `zinc-200` fill, `zinc-400` number
 - Connecting line between circles: 1px `zinc-200`
-- Step labels below each circle: 12px DM Sans regular, `zinc-400` (inactive) / `indigo-600` (active)
+- Step labels below each circle: 14px DM Sans regular, `zinc-400` (inactive) / `indigo-600` (active)
 
 Step labels:
 1. Profil
@@ -285,7 +285,7 @@ No third-party registries are used in Phase 2.
 - Wizard card transitions must respect `prefers-reduced-motion` — use `opacity` only (no slide) when motion is reduced
 - All buttons must have visible focus rings (ring-2 ring-indigo-600 ring-offset-2)
 - Color contrast: body text `zinc-900` on `white` = 15.3:1 (AAA). Secondary text `zinc-500` on `white` = 4.6:1 (AA).
-- Minimum touch target: 44px height on all buttons
+- Minimum touch target: 48px height on all buttons (exceeds WCAG 2.5.5 44px minimum)
 
 ---
 
