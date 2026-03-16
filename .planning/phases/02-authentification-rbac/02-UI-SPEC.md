@@ -1,7 +1,8 @@
 ---
 phase: 2
 slug: authentification-rbac
-status: draft
+status: approved
+reviewed_at: 2026-03-16
 shadcn_initialized: false
 preset: to-be-initialized-in-phase-2
 created: 2026-03-16
