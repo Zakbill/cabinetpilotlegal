@@ -13,7 +13,7 @@ CabinetPilot se construit en 9 phases ordonnées par dépendances strictes : la 
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Fondation — Schéma & RLS** - Schéma Supabase complet + politiques RLS à 3 niveaux + statuts configurables
+- [x] **Phase 1: Fondation — Schéma & RLS** - Schéma Supabase complet + politiques RLS à 3 niveaux + statuts configurables (completed 2026-03-16)
 - [ ] **Phase 2: Authentification & RBAC** - Magic link, onboarding organisation, invitations, profils utilisateurs, isolation multi-tenant
 - [ ] **Phase 3: Dashboard — Table, Filtres & KPI** - Table TanStack avec pagination server-side, filtres persistants, KPI réactifs, sidebar collapsible
 - [ ] **Phase 4: Dashboard — Side Panel & Fil d'Activité** - Side panel coulissant, changement de statut, commentaires manuels, logs automatiques
@@ -209,7 +209,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 
 | Phase                                      | Plans Complete | Status      | Completed |
 | ------------------------------------------ | -------------- | ----------- | --------- |
-| 1. Fondation — Schéma & RLS                | 3/4 | In Progress|  |
+| 1. Fondation — Schéma & RLS                | 4/4 | Complete   | 2026-03-16 |
 | 2. Authentification & RBAC                 | 0/TBD          | Not started | -         |
 | 3. Dashboard — Table, Filtres & KPI        | 0/TBD          | Not started | -         |
 | 4. Dashboard — Side Panel & Fil d'Activité | 0/TBD          | Not started | -         |

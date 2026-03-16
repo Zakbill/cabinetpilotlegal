@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 01-03-PLAN.md — table dossiers + 3 fonctions RLS helper SECURITY DEFINER
-last_updated: "2026-03-16T05:47:18.970Z"
+stopped_at: Completed 01-04-PLAN.md — RLS policies on 6 tables (migration 007); pgTAP tests pending Docker installation
+last_updated: "2026-03-16T05:50:44.743Z"
 last_activity: 2026-03-16 — Roadmap créé (9 phases, 49 requirements mapped)
 progress:
   total_phases: 9
-  completed_phases: 0
+  completed_phases: 1
   total_plans: 4
-  completed_plans: 3
+  completed_plans: 4
   percent: 0
 ---
 
@@ -55,6 +55,7 @@ _Updated after each plan completion_
 | Phase 01 P01 | 3 | 3 tasks | 7 files |
 | Phase 01 P02 | 2 | 3 tasks | 4 files |
 | Phase 01 P03 | 1 | 2 tasks | 2 files |
+| Phase 01 P04 | 5 | 1 tasks | 1 files |
 
 ## Accumulated Context
 
@@ -76,6 +77,8 @@ Recent decisions affecting current work:
 - [Phase 01]: type TEXT (pas enum) sur dossiers — extensible pour types v2 sans migration destructive
 - [Phase 01]: Fonctions helper dans schéma private — non exposées via PostgREST, sécurité par isolation de schéma
 - [Phase 01]: get_my_cabinet_ids() retourne '{}' (pas NULL) via coalesce — évite = ANY(NULL) toujours faux en RLS
+- [Phase 01]: No DELETE policy on organizations or dossiers — admin-only operations, absence of policy silently blocks all deletes
+- [Phase 01]: dossiers INSERT open to all authenticated org members — collaborateurs can create dossiers, org_id check prevents cross-org
 
 ### Pending Todos
 
@@ -88,6 +91,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-16T05:47:18.966Z
-Stopped at: Completed 01-03-PLAN.md — table dossiers + 3 fonctions RLS helper SECURITY DEFINER
+Last session: 2026-03-16T05:50:44.739Z
+Stopped at: Completed 01-04-PLAN.md — RLS policies on 6 tables (migration 007); pgTAP tests pending Docker installation
 Resume file: None
