@@ -57,13 +57,17 @@ Plans:
 3. Tout nouvel utilisateur (inscription ou invitation) est bloqué sur la page de complétion de profil (prénom, nom, photo) avant d'accéder au dashboard
 4. L'expert-comptable peut inviter un collaborateur ou un autre expert-comptable par e-mail — l'invité reçoit un magic link et atterrit dans le bon groupe après complétion de son profil
 5. Un collaborateur connecté ne peut accéder qu'aux dossiers de ses cabinets assignés (transparentement, sans configuration côté UI)
-   **Plans**: 4 plans
+   **Plans**: 8 plans
 
 Plans:
-- [ ] 01-01-PLAN.md — Tests pgTAP scaffolds (Wave 0/Wave 1 — FOUND-01 à FOUND-05)
-- [ ] 01-02-PLAN.md — Tables organizations, profiles, cabinets, user_cabinet_assignments, org_statuses + trigger seed (Wave 1)
-- [ ] 01-03-PLAN.md — Table dossiers + fonctions helper RLS (Wave 2)
-- [ ] 01-04-PLAN.md — Politiques RLS sur 6 tables + validation finale pgTAP (Wave 3)
+- [ ] 02-01-PLAN.md — Migration colonnes onboarding + trigger profil + stubs pgTAP (Wave 0, AUTH-01, AUTH-02, AUTH-04, AUTH-05)
+- [ ] 02-02-PLAN.md — Approbation composants shadcn/ui (Wave 0 checkpoint, AUTH-01 à AUTH-05)
+- [ ] 02-03-PLAN.md — Bootstrap Next.js + design tokens + clients Supabase (Wave 1, AUTH-01 à RBAC-03)
+- [ ] 02-04-PLAN.md — Middleware auth + callback PKCE + stub dashboard (Wave 2, AUTH-01, AUTH-03, RBAC-01 à RBAC-03)
+- [ ] 02-05-PLAN.md — Page login split-screen + LoginForm + ConfirmationScreen (Wave 2, AUTH-01)
+- [ ] 02-06-PLAN.md — Wizard onboarding 4 étapes + AnimatePresence + Server Actions (Wave 3, AUTH-02, AUTH-03, AUTH-05, RBAC-01, RBAC-03)
+- [ ] 02-07-PLAN.md — Route Handler invitation + template email React Email (Wave 4, AUTH-04, RBAC-01, RBAC-02)
+- [ ] 02-08-PLAN.md — Smoke test complet Phase 2 (Wave 5 checkpoint, AUTH-01 à RBAC-03)
 
 ### Phase 3: Dashboard — Table, Filtres & KPI
 
@@ -80,10 +84,10 @@ Plans:
    **Plans**: 4 plans
 
 Plans:
-- [ ] 01-01-PLAN.md — Tests pgTAP scaffolds (Wave 0/Wave 1 — FOUND-01 à FOUND-05)
-- [ ] 01-02-PLAN.md — Tables organizations, profiles, cabinets, user_cabinet_assignments, org_statuses + trigger seed (Wave 1)
-- [ ] 01-03-PLAN.md — Table dossiers + fonctions helper RLS (Wave 2)
-- [ ] 01-04-PLAN.md — Politiques RLS sur 6 tables + validation finale pgTAP (Wave 3)
+- [ ] 03-01-PLAN.md — à planifier
+- [ ] 03-02-PLAN.md — à planifier
+- [ ] 03-03-PLAN.md — à planifier
+- [ ] 03-04-PLAN.md — à planifier
 
 ### Phase 4: Dashboard — Side Panel & Fil d'Activité
 
@@ -99,10 +103,10 @@ Plans:
    **Plans**: 4 plans
 
 Plans:
-- [ ] 01-01-PLAN.md — Tests pgTAP scaffolds (Wave 0/Wave 1 — FOUND-01 à FOUND-05)
-- [ ] 01-02-PLAN.md — Tables organizations, profiles, cabinets, user_cabinet_assignments, org_statuses + trigger seed (Wave 1)
-- [ ] 01-03-PLAN.md — Table dossiers + fonctions helper RLS (Wave 2)
-- [ ] 01-04-PLAN.md — Politiques RLS sur 6 tables + validation finale pgTAP (Wave 3)
+- [ ] 04-01-PLAN.md — à planifier
+- [ ] 04-02-PLAN.md — à planifier
+- [ ] 04-03-PLAN.md — à planifier
+- [ ] 04-04-PLAN.md — à planifier
 
 ### Phase 5: Synchronisation Pennylane Manuelle
 
@@ -119,10 +123,10 @@ Plans:
    **Plans**: 4 plans
 
 Plans:
-- [ ] 01-01-PLAN.md — Tests pgTAP scaffolds (Wave 0/Wave 1 — FOUND-01 à FOUND-05)
-- [ ] 01-02-PLAN.md — Tables organizations, profiles, cabinets, user_cabinet_assignments, org_statuses + trigger seed (Wave 1)
-- [ ] 01-03-PLAN.md — Table dossiers + fonctions helper RLS (Wave 2)
-- [ ] 01-04-PLAN.md — Politiques RLS sur 6 tables + validation finale pgTAP (Wave 3)
+- [ ] 05-01-PLAN.md — à planifier
+- [ ] 05-02-PLAN.md — à planifier
+- [ ] 05-03-PLAN.md — à planifier
+- [ ] 05-04-PLAN.md — à planifier
 
 ### Phase 6: Gestion Cabinet & Paramètres
 
@@ -139,10 +143,10 @@ Plans:
    **Plans**: 4 plans
 
 Plans:
-- [ ] 01-01-PLAN.md — Tests pgTAP scaffolds (Wave 0/Wave 1 — FOUND-01 à FOUND-05)
-- [ ] 01-02-PLAN.md — Tables organizations, profiles, cabinets, user_cabinet_assignments, org_statuses + trigger seed (Wave 1)
-- [ ] 01-03-PLAN.md — Table dossiers + fonctions helper RLS (Wave 2)
-- [ ] 01-04-PLAN.md — Politiques RLS sur 6 tables + validation finale pgTAP (Wave 3)
+- [ ] 06-01-PLAN.md — à planifier
+- [ ] 06-02-PLAN.md — à planifier
+- [ ] 06-03-PLAN.md — à planifier
+- [ ] 06-04-PLAN.md — à planifier
 
 ### Phase 7: Abonnements Stripe
 
@@ -159,10 +163,10 @@ Plans:
    **Plans**: 4 plans
 
 Plans:
-- [ ] 01-01-PLAN.md — Tests pgTAP scaffolds (Wave 0/Wave 1 — FOUND-01 à FOUND-05)
-- [ ] 01-02-PLAN.md — Tables organizations, profiles, cabinets, user_cabinet_assignments, org_statuses + trigger seed (Wave 1)
-- [ ] 01-03-PLAN.md — Table dossiers + fonctions helper RLS (Wave 2)
-- [ ] 01-04-PLAN.md — Politiques RLS sur 6 tables + validation finale pgTAP (Wave 3)
+- [ ] 07-01-PLAN.md — à planifier
+- [ ] 07-02-PLAN.md — à planifier
+- [ ] 07-03-PLAN.md — à planifier
+- [ ] 07-04-PLAN.md — à planifier
 
 ### Phase 8: Synchronisation Automatique — pg_cron
 
@@ -177,10 +181,10 @@ Plans:
    **Plans**: 4 plans
 
 Plans:
-- [ ] 01-01-PLAN.md — Tests pgTAP scaffolds (Wave 0/Wave 1 — FOUND-01 à FOUND-05)
-- [ ] 01-02-PLAN.md — Tables organizations, profiles, cabinets, user_cabinet_assignments, org_statuses + trigger seed (Wave 1)
-- [ ] 01-03-PLAN.md — Table dossiers + fonctions helper RLS (Wave 2)
-- [ ] 01-04-PLAN.md — Politiques RLS sur 6 tables + validation finale pgTAP (Wave 3)
+- [ ] 08-01-PLAN.md — à planifier
+- [ ] 08-02-PLAN.md — à planifier
+- [ ] 08-03-PLAN.md — à planifier
+- [ ] 08-04-PLAN.md — à planifier
 
 ### Phase 9: Landing Page
 
@@ -197,10 +201,10 @@ Plans:
    **Plans**: 4 plans
 
 Plans:
-- [ ] 01-01-PLAN.md — Tests pgTAP scaffolds (Wave 0/Wave 1 — FOUND-01 à FOUND-05)
-- [ ] 01-02-PLAN.md — Tables organizations, profiles, cabinets, user_cabinet_assignments, org_statuses + trigger seed (Wave 1)
-- [ ] 01-03-PLAN.md — Table dossiers + fonctions helper RLS (Wave 2)
-- [ ] 01-04-PLAN.md — Politiques RLS sur 6 tables + validation finale pgTAP (Wave 3)
+- [ ] 09-01-PLAN.md — à planifier
+- [ ] 09-02-PLAN.md — à planifier
+- [ ] 09-03-PLAN.md — à planifier
+- [ ] 09-04-PLAN.md — à planifier
 
 ## Progress
 
@@ -210,7 +214,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 | Phase                                      | Plans Complete | Status      | Completed |
 | ------------------------------------------ | -------------- | ----------- | --------- |
 | 1. Fondation — Schéma & RLS                | 4/4 | Complete   | 2026-03-16 |
-| 2. Authentification & RBAC                 | 0/TBD          | Not started | -         |
+| 2. Authentification & RBAC                 | 0/8            | Not started | -         |
 | 3. Dashboard — Table, Filtres & KPI        | 0/TBD          | Not started | -         |
 | 4. Dashboard — Side Panel & Fil d'Activité | 0/TBD          | Not started | -         |
 | 5. Synchronisation Pennylane Manuelle      | 0/TBD          | Not started | -         |
