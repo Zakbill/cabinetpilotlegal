@@ -209,7 +209,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 
 | Phase                                      | Plans Complete | Status      | Completed |
 | ------------------------------------------ | -------------- | ----------- | --------- |
-| 1. Fondation — Schéma & RLS                | 2/4 | In Progress|  |
+| 1. Fondation — Schéma & RLS                | 3/4 | In Progress|  |
 | 2. Authentification & RBAC                 | 0/TBD          | Not started | -         |
 | 3. Dashboard — Table, Filtres & KPI        | 0/TBD          | Not started | -         |
 | 4. Dashboard — Side Panel & Fil d'Activité | 0/TBD          | Not started | -         |

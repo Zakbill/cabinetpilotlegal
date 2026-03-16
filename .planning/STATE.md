@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 01-02-PLAN.md — 4 migrations SQL créées
-last_updated: "2026-03-16T05:44:08.360Z"
+stopped_at: Completed 01-03-PLAN.md — table dossiers + 3 fonctions RLS helper SECURITY DEFINER
+last_updated: "2026-03-16T05:47:18.970Z"
 last_activity: 2026-03-16 — Roadmap créé (9 phases, 49 requirements mapped)
 progress:
   total_phases: 9
   completed_phases: 0
   total_plans: 4
-  completed_plans: 2
+  completed_plans: 3
   percent: 0
 ---
 
@@ -54,6 +54,7 @@ Progress: [░░░░░░░░░░] 0%
 _Updated after each plan completion_
 | Phase 01 P01 | 3 | 3 tasks | 7 files |
 | Phase 01 P02 | 2 | 3 tasks | 4 files |
+| Phase 01 P03 | 1 | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -72,6 +73,9 @@ Recent decisions affecting current work:
 - [Phase 01]: plan_type enum PostgreSQL avec 4 valeurs (starter/pro/cabinet/enterprise)
 - [Phase 01]: profiles.organization_id et role NULLABLE à la création — remplis à l'onboarding Phase 2
 - [Phase 01]: Trigger AFTER INSERT sur organizations seed 13 statuts atomiquement — aucun code applicatif requis
+- [Phase 01]: type TEXT (pas enum) sur dossiers — extensible pour types v2 sans migration destructive
+- [Phase 01]: Fonctions helper dans schéma private — non exposées via PostgREST, sécurité par isolation de schéma
+- [Phase 01]: get_my_cabinet_ids() retourne '{}' (pas NULL) via coalesce — évite = ANY(NULL) toujours faux en RLS
 
 ### Pending Todos
 
@@ -84,6 +88,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-16T05:44:08.353Z
-Stopped at: Completed 01-02-PLAN.md — 4 migrations SQL créées
+Last session: 2026-03-16T05:47:18.966Z
+Stopped at: Completed 01-03-PLAN.md — table dossiers + 3 fonctions RLS helper SECURITY DEFINER
 Resume file: None
