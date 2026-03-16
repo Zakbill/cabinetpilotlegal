@@ -156,3 +156,9 @@
 .font-display {
   font-family: var(--font-cal-sans);
 }
+
+/* Border beam animation — login card */
+@keyframes border-beam {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
