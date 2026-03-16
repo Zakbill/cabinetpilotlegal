@@ -20,7 +20,8 @@ created: 2026-03-16
 |----------|-------|--------|
 | Tool | shadcn/ui | PROJECT.md Constraints |
 | Preset | To be initialized at project bootstrap (`bunx shadcn@latest init`) | PROJECT.md Constraints |
-| Component library | shadcn/ui (Radix UI primitives) — no mixing with other component libraries | PROJECT.md Constraints |
+| Component library — base | shadcn/ui (Radix UI primitives) — standard elements only | PROJECT.md Constraints |
+| Component library — premium | badtz-ui — containers, interactive cards, hover effects | Phase 2 amendment 2026-03-16 |
 | Icon library | Lucide React (bundled with shadcn/ui) | Default for shadcn stack |
 | Font — Headings | Cal Sans | PROJECT.md Constraints |
 | Font — Body/UI | DM Sans | PROJECT.md Constraints |
@@ -28,6 +29,12 @@ created: 2026-03-16
 | Dark mode | Supported via shadcn theming (CSS variables) | PROJECT.md Constraints |
 
 **Note:** `components.json` does not exist yet. Phase 2 initialises the Next.js project from scratch. The executor MUST run `bunx shadcn@latest init` at the start of Phase 2 before building any component. No components.json = no shadcn commands work.
+
+### Component Selection Rules (CRITICAL)
+
+1. **BASE COMPONENTS (shadcn/ui):** Use for all standard form elements — inputs, labels, regular buttons, checkboxes, avatars, form wrappers.
+2. **PREMIUM COMPONENTS (badtz-ui):** Prioritize for containers, interactive cards, and hover effects — wizard card wrapper, animated step containers, role/selection cards.
+3. **BADTZ-UI INSTALLATION RULE:** If a badtz-ui component is needed, **DO NOT** attempt to install it autonomously and **DO NOT** guess the registry URL. STOP and ask the user to provide the exact installation command (e.g., `bunx --bun shadcn@latest add https://badtz-ui.com/r/...`). Wait for the user's confirmation before proceeding.
 
 ---
 
@@ -261,9 +268,9 @@ Destructive actions in Phase 2: None identified. (Invitation revocation is Phase
 | Registry | Blocks Used | Safety Gate |
 |----------|-------------|-------------|
 | shadcn official (ui.shadcn.com) | Button, Input, Label, Checkbox, Form (react-hook-form integration), Avatar, Separator | not required — official registry |
-| Third-party | none | not applicable |
+| badtz-ui (badtz-ui.com/r/…) | TBD — exact components pending user confirmation | STOP — ask user for exact `bunx --bun shadcn@latest add <url>` command before installing |
 
-No third-party registries are used in Phase 2.
+badtz-ui components are allowed but require explicit installation command from the user before use. Never guess the registry URL.
 
 ---
 
