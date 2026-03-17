@@ -1,5 +1,8 @@
+'use server'
+
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
+import { LogoutButton } from './LogoutButton'
 
 export default async function DashboardPage() {
   const supabase = await createClient()
@@ -27,6 +30,9 @@ export default async function DashboardPage() {
         <p className="mt-1 text-sm text-zinc-400">
           Rôle : {profile?.role ?? 'non assigné'}
         </p>
+        <div className="mt-6">
+          <LogoutButton />
+        </div>
       </div>
     </main>
   )
