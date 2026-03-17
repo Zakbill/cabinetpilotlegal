@@ -71,7 +71,7 @@ Plans:
 
 ### Phase 3: Dashboard — Table, Filtres & KPI
 
-**Goal**: Un expert-comptable ou collaborateur ouvre le dashboard et voit instantanément l'état de sa mission juridique — liste filtrée, KPI réactifs, deadlines colorées, sidebar et bouton de sync
+**Goal**: Un expert-comptable ou collaborateur ouvre le dashboard et voit instantanément l'état de sa mission juridique — liste filtrée, KPI réactifs, deadlines colorées, floating dock et bouton de sync
 **Depends on**: Phase 2
 **Requirements**: DASH-01, DASH-02, DASH-03, DASH-04, DASH-06, DASH-07, DASH-08
 **Success Criteria** (what must be TRUE):
@@ -80,14 +80,14 @@ Plans:
 2. Les filtres (cabinet, statut, plage de dates) persistent dans l'URL — rechargement ou partage de lien restaure exactement la vue
 3. La ligne KPI (total, Non commencé, En cours, Terminés, En retard) se met à jour en réponse aux filtres actifs
 4. Les dates d'échéance affichent un badge rouge/orange/vert selon l'urgence, et les lignes critiques sont visuellement mises en évidence
-5. La sidebar gauche est collapsible avec transition Framer Motion — logo, navigation, sélecteur de groupe, menu utilisateur en bas
+5. La navigation est un floating glassmorphism dock (pill) fixé en haut — remplace la sidebar collapsible par décision produit
    **Plans**: 4 plans
 
 Plans:
-- [ ] 03-01-PLAN.md — à planifier
-- [ ] 03-02-PLAN.md — à planifier
-- [ ] 03-03-PLAN.md — à planifier
-- [ ] 03-04-PLAN.md — à planifier
+- [ ] 03-01-PLAN.md — Wave 1: Packages npm + shadcn installs + root layout (NuqsAdapter + Toaster) — DASH-01, DASH-02, DASH-07, DASH-08
+- [ ] 03-02-PLAN.md — Wave 2: mock-data.ts + date-utils.ts + dashboard layout (mesh gradient + FloatingDock) — DASH-01, DASH-07
+- [ ] 03-03-PLAN.md — Wave 3: KpiCards + DossiersTable (TanStack) + DossierSheet + dashboard page rebuild — DASH-01, DASH-03, DASH-04
+- [ ] 03-04-PLAN.md — Wave 4: nuqs URL-persistent filters + reactive KPIs + CSV/sync stub buttons + human verify — DASH-02, DASH-03, DASH-06, DASH-08
 
 ### Phase 4: Dashboard — Side Panel & Fil d'Activité
 
@@ -215,7 +215,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 | ------------------------------------------ | -------------- | ----------- | --------- |
 | 1. Fondation — Schéma & RLS                | 4/4 | Complete   | 2026-03-16 |
 | 2. Authentification & RBAC                 | 7/8 | In Progress|  |
-| 3. Dashboard — Table, Filtres & KPI        | 0/TBD          | Not started | -         |
+| 3. Dashboard — Table, Filtres & KPI        | 0/4            | Not started | -         |
 | 4. Dashboard — Side Panel & Fil d'Activité | 0/TBD          | Not started | -         |
 | 5. Synchronisation Pennylane Manuelle      | 0/TBD          | Not started | -         |
 | 6. Gestion Cabinet & Paramètres            | 0/TBD          | Not started | -         |
