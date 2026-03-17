@@ -18,10 +18,22 @@ import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
 import { saveProfilStep } from '@/app/onboarding/actions'
 import { createClient } from '@/lib/supabase/client'
 
+const frenchPhone = z
+  .string()
+  .optional()
+  .refine(
+    (val) => {
+      if (!val || val.trim() === '') return true
+      const cleaned = val.replace(/[\s\-\.\(\)]/g, '')
+      return /^0[1-9]\d{8}$/.test(cleaned) || /^\+33[1-9]\d{8}$/.test(cleaned)
+    },
+    { message: 'Numéro invalide (ex\u00a0: 06\u00a012\u00a034\u00a056\u00a078)' },
+  )
+
 const profilSchema = z.object({
   first_name: z.string().min(1, 'Le prénom est requis'),
   last_name: z.string().min(1, 'Le nom est requis'),
-  phone: z.string().optional(),
+  phone: frenchPhone,
 })
 
 type ProfilValues = z.infer<typeof profilSchema>
@@ -156,7 +168,7 @@ export function StepProfil({ initialProfile, onNext, isInvited, onComplete }: St
               <FormControl>
                 <Input
                   type="tel"
-                  placeholder="+33 6 12 34 56 78"
+                  placeholder="06 12 34 56 78"
                   className="h-12 border-zinc-200 hover:border-zinc-300 focus-visible:border-indigo-600 focus-visible:ring-2 focus-visible:ring-indigo-600/20"
                   {...field}
                 />
