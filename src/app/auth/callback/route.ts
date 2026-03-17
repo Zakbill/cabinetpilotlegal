@@ -34,19 +34,30 @@ export async function GET(request: NextRequest) {
   // --- Flow 1: PKCE (code param) ---
   if (code) {
     const { error } = await supabase.auth.exchangeCodeForSession(code)
-    if (error) exchangeError = error.message
+    if (error) {
+      console.error('[auth/callback] exchangeCodeForSession failed:', error.message, error)
+      exchangeError = error.message
+    }
   }
   // --- Flow 2: magic-link / OTP (token_hash + type) ---
   else if (token_hash && type) {
     const { error } = await supabase.auth.verifyOtp({ token_hash, type })
-    if (error) exchangeError = error.message
+    if (error) {
+      console.error('[auth/callback] verifyOtp failed:', error.message, error)
+      exchangeError = error.message
+    }
   }
   else {
+    const params = { code: !!code, token_hash: !!token_hash, type }
+    console.error('[auth/callback] missing_params — received:', params)
     exchangeError = 'missing_params'
   }
 
   if (exchangeError) {
-    const errorUrl = new URL('/login?error=auth_callback_failed', origin)
+    console.error('[auth/callback] redirecting to error page, reason:', exchangeError)
+    const errorUrl = new URL('/login', origin)
+    errorUrl.searchParams.set('error', 'auth_callback_failed')
+    errorUrl.searchParams.set('details', exchangeError)
     return NextResponse.redirect(errorUrl)
   }
 

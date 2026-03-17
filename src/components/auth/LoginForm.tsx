@@ -8,11 +8,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import {
   Form,
-  FormControl,
   FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
 } from '@/components/ui/form'
 import { sendMagicLink } from '@/app/login/actions'
 import { ConfirmationScreen } from './ConfirmationScreen'
@@ -77,21 +73,27 @@ export function LoginForm() {
           control={form.control}
           name="email"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel className="text-sm font-normal text-zinc-700">
+            <div className="space-y-2">
+              <label
+                htmlFor="login-email"
+                className="text-sm font-normal text-zinc-700"
+              >
                 Adresse e-mail
-              </FormLabel>
-              <FormControl>
-                <Input
-                  type="email"
-                  placeholder="vous@cabinet.fr"
-                  autoComplete="email"
-                  className="h-12 border-zinc-200 hover:border-zinc-300 focus-visible:border-indigo-600 focus-visible:ring-2 focus-visible:ring-indigo-600/20"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage className="text-sm text-red-500" />
-            </FormItem>
+              </label>
+              <Input
+                id="login-email"
+                type="email"
+                placeholder="vous@cabinet.fr"
+                autoComplete="email"
+                className="h-12 border-zinc-200 hover:border-zinc-300 focus-visible:border-indigo-600 focus-visible:ring-2 focus-visible:ring-indigo-600/20"
+                {...field}
+              />
+              {form.formState.errors.email && (
+                <p className="text-sm text-red-500" role="alert">
+                  {form.formState.errors.email.message}
+                </p>
+              )}
+            </div>
           )}
         />
 
