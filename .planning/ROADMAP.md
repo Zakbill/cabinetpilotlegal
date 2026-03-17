@@ -214,7 +214,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 | Phase                                      | Plans Complete | Status      | Completed |
 | ------------------------------------------ | -------------- | ----------- | --------- |
 | 1. Fondation — Schéma & RLS                | 4/4 | Complete   | 2026-03-16 |
-| 2. Authentification & RBAC                 | 0/8            | Not started | -         |
+| 2. Authentification & RBAC                 | 7/8 | In Progress|  |
 | 3. Dashboard — Table, Filtres & KPI        | 0/TBD          | Not started | -         |
 | 4. Dashboard — Side Panel & Fil d'Activité | 0/TBD          | Not started | -         |
 | 5. Synchronisation Pennylane Manuelle      | 0/TBD          | Not started | -         |

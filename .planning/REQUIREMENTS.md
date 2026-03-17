@@ -20,7 +20,7 @@
 - [ ] **AUTH-01**: L'utilisateur peut s'inscrire et se connecter uniquement par magic link (e-mail → lien de connexion via Resend) — aucun mot de passe, aucun OAuth
 - [ ] **AUTH-02**: À la première connexion, l'expert-comptable crée son groupe (organisation) — le flow d'onboarding enchaîne : nom du groupe → credentials Pennylane Redshift → configuration des filtres de sync → premier sync manuel
 - [ ] **AUTH-03**: Tout nouvel utilisateur (inscription ou invitation) doit compléter son profil avant d'accéder au dashboard : prénom, nom, téléphone, photo de profil (upload via Supabase Storage) — étape obligatoire, non passable
-- [ ] **AUTH-04**: L'expert-comptable peut inviter un collaborateur ou un autre expert-comptable par e-mail (Resend) en spécifiant le rôle et les cabinets assignés — l'invité reçoit un magic link et atterrit dans le groupe après la complétion de son profil
+- [x] **AUTH-04**: L'expert-comptable peut inviter un collaborateur ou un autre expert-comptable par e-mail (Resend) en spécifiant le rôle et les cabinets assignés — l'invité reçoit un magic link et atterrit dans le groupe après la complétion de son profil
 - [ ] **AUTH-05**: Les données de profil (prénom, nom) sont affichées partout : fil d'activité, page Gestion Cabinet, e-mails d'invitation, menu utilisateur dans la sidebar — aucun utilisateur anonyme
 
 ### Dashboard Principal
@@ -46,8 +46,8 @@
 
 ### RBAC & Multi-tenant
 
-- [ ] **RBAC-01**: Rôle `expert-comptable` — accès complet à tous les cabinets du groupe, gestion de l'équipe, configuration Pennylane, facturation. Peut inviter des collaborateurs et d'autres expert-comptables
-- [ ] **RBAC-02**: Rôle `collaborateur` — accès uniquement aux cabinets qui lui sont assignés, appliqué transparentement au niveau DB via RLS (aucune configuration côté UI nécessaire de son côté)
+- [x] **RBAC-01**: Rôle `expert-comptable` — accès complet à tous les cabinets du groupe, gestion de l'équipe, configuration Pennylane, facturation. Peut inviter des collaborateurs et d'autres expert-comptables
+- [x] **RBAC-02**: Rôle `collaborateur` — accès uniquement aux cabinets qui lui sont assignés, appliqué transparentement au niveau DB via RLS (aucune configuration côté UI nécessaire de son côté)
 - [ ] **RBAC-03**: Un expert-comptable peut appartenir à plusieurs groupes — la sidebar affiche un sélecteur de groupe pour switcher entre eux (isolation RLS totale entre groupes)
 
 ### Page Gestion Cabinet
@@ -138,10 +138,10 @@
 | AUTH-01     | Phase 2 — Authentification & RBAC                 | Pending |
 | AUTH-02     | Phase 2 — Authentification & RBAC                 | Pending |
 | AUTH-03     | Phase 2 — Authentification & RBAC                 | Pending |
-| AUTH-04     | Phase 2 — Authentification & RBAC                 | Pending |
+| AUTH-04     | Phase 2 — Authentification & RBAC                 | Complete |
 | AUTH-05     | Phase 2 — Authentification & RBAC                 | Pending |
-| RBAC-01     | Phase 2 — Authentification & RBAC                 | Pending |
-| RBAC-02     | Phase 2 — Authentification & RBAC                 | Pending |
+| RBAC-01     | Phase 2 — Authentification & RBAC                 | Complete |
+| RBAC-02     | Phase 2 — Authentification & RBAC                 | Complete |
 | RBAC-03     | Phase 2 — Authentification & RBAC                 | Pending |
 | DASH-01     | Phase 3 — Dashboard : Table, Filtres & KPI        | Pending |
 | DASH-02     | Phase 3 — Dashboard : Table, Filtres & KPI        | Pending |
