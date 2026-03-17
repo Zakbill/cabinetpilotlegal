@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
@@ -28,11 +29,16 @@ interface StepCabinetProps {
 }
 
 export function StepCabinet({ onNext, onBack }: StepCabinetProps) {
-  const form = useForm<CabinetValues>({ resolver: zodResolver(cabinetSchema) })
+  const form = useForm<CabinetValues>({ resolver: zodResolver(cabinetSchema), defaultValues: { org_name: '' } })
+  const [serverError, setServerError] = useState<string | null>(null)
 
   const onSubmit = async (values: CabinetValues) => {
+    setServerError(null)
     const result = await saveCabinetStep(values.org_name)
-    if ('error' in result) return
+    if ('error' in result) {
+      setServerError(result.error ?? 'Une erreur est survenue')
+      return
+    }
 
     // Refresh session so new JWT claims (org_id, role) are active
     const supabase = createClient()
@@ -68,6 +74,10 @@ export function StepCabinet({ onNext, onBack }: StepCabinetProps) {
             </FormItem>
           )}
         />
+
+        {serverError && (
+          <p className="text-sm text-red-500" role="alert">{serverError}</p>
+        )}
 
         <div className="space-y-2">
           <Button

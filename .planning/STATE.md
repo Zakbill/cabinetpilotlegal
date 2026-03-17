@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: Plans 07 (Resend email) and 08 (RBAC guard) remaining
-stopped_at: Phase 02 Plan 07 complete (Invitation Route + React Email). Plan 08 remaining.
-last_updated: "2026-03-17T12:56:54.727Z"
-last_activity: 2026-03-17 — Service Role bootstrap fix + onboarding wizard complete
+status: Phase 02 complete — Phase 03 (Dashboard) up next
+stopped_at: Phase 02 complete (UAT approved 2026-03-17). Phase 03 not yet planned.
+last_updated: "2026-03-17T14:00:00.000Z"
+last_activity: 2026-03-17 — Phase 2 UAT approved, profiles fully hydrated, Phase 2 COMPLETE
 progress:
   total_phases: 9
-  completed_phases: 1
+  completed_phases: 2
   total_plans: 12
-  completed_plans: 11
-  percent: 69
+  completed_plans: 12
+  percent: 78
 ---
 
 # Project State
@@ -21,16 +21,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-15)
 
 **Core value:** Un cabinet comptable ouvre CabinetPilot et sait instantanément, pour chacun de ses clients, où en est la mission juridique — qui la gère, quel est son statut, et si une deadline approche.
-**Current focus:** Phase 02 — Authentification & RBAC
+**Current focus:** Phase 03 — Dashboard (table, filtres, KPIs)
 
 ## Current Position
 
-Phase: 2 of 9 (Authentification & RBAC)
-Plan: 6 of 8 in current phase — complete
-Status: Plans 07 (Resend email) and 08 (RBAC guard) remaining
-Last activity: 2026-03-17 — Service Role bootstrap fix + onboarding wizard complete
+Phase: 3 of 9 (Dashboard — table, filtres, KPIs)
+Plan: 0 of 0 in current phase — not yet planned
+Status: Phase 02 complete (UAT approved). Phase 03 ready to plan.
+Last activity: 2026-03-17 — Phase 2 UAT 100% approved, all 8 plans complete
 
-Progress: [███████████████░░░░░] 69%
+Progress: [████████████████░░░░] 78%
 
 ## Performance Metrics
 
